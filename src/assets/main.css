@@ -4,9 +4,12 @@
 }
 
 #app {
+  display: flex;
+  flex-flow: wrap column;
   width: 100%;
   /* margin: 0 auto; */
   font-weight: normal;
+  min-height: 100vh;
 }
 
 a,
@@ -28,12 +31,5 @@ a,
   body {
     display: flex;
     /* place-items: center; */
-  }
-
-  #app {
-    display: flex;
-    flex-flow: wrap column;
-    /* grid-template-columns: 1fr 1fr; */
-    /* padding: 0 2rem; */
   }
 }

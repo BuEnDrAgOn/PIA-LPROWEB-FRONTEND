@@ -21,13 +21,14 @@ export default {
 
 <style scoped>
 a{
-    padding: 2rem;
+    padding: 2rem 0;
 }
 
 /* Inside a dropdown list */
 ul.dropdown li{
   background-color: transparent;
   width: 15vw;
+
 }
 
 ul.dropdown li:first-of-type{
