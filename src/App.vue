@@ -115,8 +115,11 @@ ul li:first-of-type{
 /* Dropdown list */
 ul.dropdown{
   position: fixed;
+  border: 1px solid #d8d8d8;
+  border-radius: 0 1rem 1rem 0;
   animation-name: slideOutDown;
   animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(1,-1.16,.59,.72);
   visibility: hidden;
   left: 15%;
 }
@@ -132,9 +135,8 @@ li.list-dropdown:hover > ul.dropdown{
   flex-flow: wrap column;
   left: 15%;
   margin-top: -2rem;
-  border: 1px solid #d8d8d8;
-  border-radius: 0 1rem 1rem 0;
   animation-name: slideInDown;
+  animation-timing-function: linear;
   animation-duration: 0.5s;
   visibility: visible;
 }
