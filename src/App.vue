@@ -49,7 +49,7 @@ aside{
   position: fixed;
   top: 15%;
   width: 15%;
-  background-color: #ccc;
+  background-color: #fff;
   height: 85%;
   border: 1px solid black;
 }
@@ -69,16 +69,22 @@ ul{
 ul li{
   text-align: center;
   list-style: none;
+  border-bottom: 1px solid #d8d8d8;
 }
 
-ul li:nth-child(odd){
-  background-color: white;
+ul li:first-of-type{
+  border-top: 1px solid #d8d8d8;
 }
 
 /* Dropdown list */
 ul.dropdown{
-  display: none;
+  position: fixed;
+  animation-name: slideOutDown;
+  animation-duration: 0.5s;
+  visibility: hidden;
+  left: 15%;
 }
+
 li.list-dropdown:hover > ul.dropdown{
   display: flex;
   position: fixed;
@@ -87,14 +93,46 @@ li.list-dropdown:hover > ul.dropdown{
   margin-top: -2rem;
   border: 1px solid #ccc;
   border-radius: 0 1rem 1rem 0;
-}
-ul.dropdown li{
-  background-color: transparent;
-  width: 15vw;
+  animation-name: slideInDown;
+  animation-duration: 0.5s;
+  visibility: visible;
 }
 
 li.list-dropdown{
   padding: 2rem;
 }
 
+
+/* Animations */
+
+@keyframes slideInDown {
+    0% {
+        -webkit-transform: translate3d(0,-100%,0);
+        transform: translate3d(0,-100%,0);
+        visibility: visible;
+        opacity: 0;
+    }
+
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 100%;
+    }
+}
+@keyframes slideOutDown {
+    0% {
+        -webkit-transform: translate3d(0,0%,0);
+        transform: translate3d(0,0%,0);
+        opacity: 100%;
+        pointer-events: none;
+    }
+
+    to {
+        -webkit-transform: translateY(100%);
+        transform: translateY(100%);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+}
 </style>

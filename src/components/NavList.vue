@@ -23,4 +23,28 @@ export default {
 a{
     padding: 2rem;
 }
+
+/* Inside a dropdown list */
+ul.dropdown li{
+  background-color: transparent;
+  width: 15vw;
+}
+
+ul.dropdown li:first-of-type{
+    border: 0px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+ul.dropdown li:last-of-type{
+    border: 0px;
+}
+
+ul.dropdown li:first-of-type a{
+  border-radius: 0 1rem 0 0;
+}
+
+ul.dropdown li:last-of-type a{
+  border-radius: 0 0 1rem 0 ;
+}
+
 </style>
