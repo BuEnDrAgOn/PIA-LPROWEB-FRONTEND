@@ -51,7 +51,7 @@ aside{
   width: 15%;
   background-color: #fff;
   height: 85%;
-  border: 1px solid black;
+  border: 1px solid #d8d8d8;
 }
 
 /* Navbar */
@@ -96,7 +96,7 @@ li.list-dropdown:hover > ul.dropdown{
   flex-flow: wrap column;
   left: 15%;
   margin-top: -2rem;
-  border: 1px solid #ccc;
+  border: 1px solid #d8d8d8;
   border-radius: 0 1rem 1rem 0;
   animation-name: slideInDown;
   animation-duration: 0.5s;
