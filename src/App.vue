@@ -12,7 +12,7 @@ import NavList from './components/NavList.vue';
   <aside>
     <nav>
       <ul>
-        <NavList link="/" page="Inicio"/>
+        <NavList link="/home" page="Inicio"/>
         <NavList link="/" page="Perfil"/>
         <li class="list-dropdown">
           Categorías
@@ -84,7 +84,12 @@ ul.dropdown{
   visibility: hidden;
   left: 15%;
 }
-
+li.list-dropdown{
+  transition: all 0.5s;
+}
+li.list-dropdown:hover{
+  background: #e8e8e8;
+}
 li.list-dropdown:hover > ul.dropdown{
   display: flex;
   position: fixed;
