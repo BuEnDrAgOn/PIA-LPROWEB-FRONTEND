@@ -47,7 +47,7 @@ const displayNavChecked = ref(true);
   </aside>
 
   <main>
-    <RouterView />
+    <RouterView/>
   </main>
 
 </template>
@@ -138,6 +138,7 @@ li.list-dropdown:hover > ul.dropdown{
   animation-name: slideInDown;
   animation-timing-function: linear;
   animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(.13,1.1,.69,1.55);
   visibility: visible;
 }
 
@@ -224,6 +225,13 @@ li.list-dropdown{
     padding: 1rem;
     border-top: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
+  }
+
+  li.list-dropdown:hover > ul.dropdown{
+    left:30%;
+  }
+  ul.dropdown{
+    left:30%;
   }
 }
 </style>
