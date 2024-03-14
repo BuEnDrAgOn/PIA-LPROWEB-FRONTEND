@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import NavList from './components/NavList.vue';
 import { ref } from 'vue'
+import HomeView  from './views/HomeView.vue'
 
 const displayNavChecked = ref(true);
 </script>
@@ -22,7 +23,7 @@ const displayNavChecked = ref(true);
   <aside id="aside" :style="[displayNavChecked ? {'left': '0'} : {'left': '-30%'}]">
     <nav>
       <ul>
-        <NavList link="/home" page="Inicio"/>
+        <NavList link="/" page="Inicio"/>
         <NavList link="/" page="Perfil"/>
 
         <li class="list-dropdown">
@@ -60,18 +61,22 @@ const displayNavChecked = ref(true);
 /* Header */
 .logo{
   position: fixed;
-  width: 100vw;
-  height: 15vh;
+  width: 100%;
+  height: 15%;
   background-color: gray;
+  z-index: 2;
 }
 
 /* Main */
 main{
+  display: flex;
+  flex-flow: wrap column;
   position: absolute;
+  padding: 1rem;
   right: 0;
   top: 15%;
   width: 85%;
-  min-height: 85vh;
+  height: 85%;
   z-index: 1;
 }
 

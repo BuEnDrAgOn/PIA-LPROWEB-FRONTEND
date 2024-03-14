@@ -1,8 +1,19 @@
 <template>
-
+    <h1>Top 10</h1>
+    <div id="container">
+        <div v-for="game in games" :key="game">{{game}}</div>
+        
+    </div>
 </template>
 
-<script setup>
+<script>
+export default {
+    data(){
+        return {
+            games: ['Hollow', 'Rayman']
+        }
+    }
+}
 
 </script>
 
@@ -18,7 +29,7 @@
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     border-radius: 10px;
     overflow-y: auto;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 #container::-webkit-scrollbar{
@@ -54,5 +65,4 @@ h1{
     font-style: italic;
     height: 7%;
 }
-
 </style>
