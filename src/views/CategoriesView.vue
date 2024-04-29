@@ -13,7 +13,6 @@ export default {
     return {
       categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
       consoles: null,
-      loading: false,
       category: null
     };
   },
