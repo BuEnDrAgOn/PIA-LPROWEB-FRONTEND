@@ -10,7 +10,7 @@
 export default {
     data(){
         return {
-            games: ['Hollow', 'Rayman']
+            games: ['Hollow', 'Rayman'],
         }
     }
 }

@@ -1,10 +1,28 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 import NavList from './components/NavList.vue';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import HomeView  from './views/HomeView.vue'
+import CategoriesViewVue from './views/CategoriesView.vue';
+import { consoleService } from '@/services/index.js'
 
 const displayNavChecked = ref(true);
+const consoles = ref([])
+const router = useRouter()
+
+const consoleCategory = (e) =>{
+  const consola = e.target.innerText
+  router.push({path: `/categories/${consola}`})
+}
+
+onMounted(() =>{
+  new Promise((response, reject) =>{
+    consoleService.getConsoles().then(response =>{
+      consoles.value = response.data
+    })
+  })
+  
+})
 </script>
 
 <template>
@@ -27,11 +45,9 @@ const displayNavChecked = ref(true);
         <NavList link="/" page="Perfil"/>
 
         <li class="list-dropdown">
-          Categorías
-          <ul class="dropdown">
-            <NavList link="/" page="Depende"/>
-            <NavList link="/" page="Depende"/>
-            <NavList link="/" page="Depende"/>
+          Consolas
+         <ul  class="dropdown">
+            <NavList v-for="console in consoles" :key="console" link="/categories" :page="console.console" @click="consoleCategory($event)"/>
           </ul>
         </li>
 
@@ -122,6 +138,7 @@ ul.dropdown{
   position: fixed;
   border: 1px solid #d8d8d8;
   border-radius: 0 1rem 1rem 0;
+  background: white;
   animation-name: slideOutDown;
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(1,-1.16,.59,.72);

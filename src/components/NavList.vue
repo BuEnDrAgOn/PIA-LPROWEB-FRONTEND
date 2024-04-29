@@ -26,7 +26,6 @@ a{
 
 /* Inside a dropdown list */
 ul.dropdown li{
-  background-color: transparent;
   width: 15vw;
 
 }
