@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
-      consoles: [],
+      consoles: null,
       path: null,
       loading: false
     };
@@ -24,9 +24,8 @@ export default {
       this.loading = true
       try{
         await consoleService.getConsoles().then((res, rej)=>{
-          // console.log(res)
+          this.consoles = res.data
         })
-        console.log(this.consoles)
       } catch(e){
         console.log(e)
       } finally{
@@ -37,7 +36,9 @@ export default {
 
   watch: {
     '$route.params.consola'(newConsole, oldConsole){
-      this.getGames(newConsole)
+      this.getGames(newConsole).then(()=>{
+        console.log(this.consoles[1].console)
+      })
     }
   }
 };
