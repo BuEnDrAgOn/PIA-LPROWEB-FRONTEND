@@ -8,38 +8,25 @@
 </template>
 
 <script>
-import { gameService } from '@/services';
 export default {
   data() {
     return {
       categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
       consoles: null,
-      path: null,
       loading: false,
       category: null
     };
   },
 
   methods:{
-    async getGames(consola, categoria){
-      this.loading = true
-      try{
-        await gameService.getConsoleCategoryGames({
-          consola: consola,
-          category: categoria
-        }).then((res) => {
-          console.log(res.data)
-        })
-      } catch(e){
-        console.log(e)
-      } finally{
-        this.loading = false
-      }
-    },
-    
     setCategory(e){
       this.category = e.target.innerText
-      this.getGames(this.consoles, this.category)
+      let path = this.$route.path
+      path = path.split('/')
+      if(this.consoles == null){
+        this.consoles = path[2]
+      }
+      this.$router.push({path: `/${this.consoles}/${this.category}`})
     }
 
   },
@@ -48,7 +35,6 @@ export default {
     '$route.params.consola'(newConsole, oldConsole){
       if (newConsole !== undefined){
         this.consoles = newConsole
-        console.log(this.consoles)
       }
     }
   }

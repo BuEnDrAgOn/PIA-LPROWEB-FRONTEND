@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue'
 import HomeView  from './views/HomeView.vue'
 import CategoriesViewVue from './views/CategoriesView.vue';
 import { consoleService } from '@/services/index.js'
+import GamesViewVue from './views/GamesView.vue';
 
 const displayNavChecked = ref(true);
 const consoles = ref([])
@@ -186,6 +187,7 @@ li.list-dropdown{
   transform: translateX(30vw);
 }
 
+
 /* Animations */
 
 @keyframes slideInDown {
@@ -239,6 +241,8 @@ li.list-dropdown{
     display: flex;
     position: relative;
     min-height: calc(85vh - 3rem - 6px);
+    height: initial;
+    top: 0;
     width: 100%;
   }
 

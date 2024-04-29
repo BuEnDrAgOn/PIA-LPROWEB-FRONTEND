@@ -1,5 +1,8 @@
 <template>
-
+    <h1>Título</h1>
+    <div id="container">
+        Holllaa
+    </div>
 </template>
 
 <script setup>
