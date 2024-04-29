@@ -1,7 +1,10 @@
 import Api from "@/api/apiURL"
 
 export const gameService = {
-    getGames: async () => {
+    getAllGames: async () => {
         return Api.get('/games')
+    },
+    getConsoleCategoryGames: async (params) =>{
+        return Api.get(`/games/${params.consola}/${params.category}`)
     }
 }

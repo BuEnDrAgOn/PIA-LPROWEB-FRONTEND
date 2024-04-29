@@ -2,43 +2,54 @@
   <h1>Categorias</h1>
 
   <div id="container">
-    <div v-for="categorie in categories" :key="categorie">{{ categorie }}</div>
+    <div v-for="categorie in categories" :key="categorie" @click="setCategory($event)">{{ categorie }}</div>
     
   </div>
 </template>
 
 <script>
-import { consoleService } from '@/services';
+import { gameService } from '@/services';
 export default {
   data() {
     return {
       categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
       consoles: null,
       path: null,
-      loading: false
+      loading: false,
+      category: null
     };
   },
 
   methods:{
-    async getGames(consola){
+    async getGames(consola, categoria){
       this.loading = true
       try{
-        await consoleService.getConsoles().then((res, rej)=>{
-          this.consoles = res.data
+        await gameService.getConsoleCategoryGames({
+          consola: consola,
+          category: categoria
+        }).then((res) => {
+          console.log(res.data)
         })
       } catch(e){
         console.log(e)
       } finally{
         this.loading = false
       }
+    },
+    
+    setCategory(e){
+      this.category = e.target.innerText
+      this.getGames(this.consoles, this.category)
     }
+
   },
 
   watch: {
     '$route.params.consola'(newConsole, oldConsole){
-      this.getGames(newConsole).then(()=>{
-        console.log(this.consoles[1].console)
-      })
+      if (newConsole !== undefined){
+        this.consoles = newConsole
+        console.log(this.consoles)
+      }
     }
   }
 };

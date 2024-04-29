@@ -18,7 +18,12 @@ const router = createRouter({
         {
           path: "/categories/:consola",
           name: 'categories',
-          component: CategoriesView
+          component: CategoriesView,
+          children: [{
+            path: "/categories/:consola/:category",
+            name: 'categories',
+            component: CategoriesView
+          }]
         }
       ]
     }
