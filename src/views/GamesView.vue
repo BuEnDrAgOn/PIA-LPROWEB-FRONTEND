@@ -25,7 +25,24 @@
 
     </div>
     <div id="container">
-        <div v-for="game in games" :key="game">{{game.game_name}}</div>
+        <div v-for="game in games" :key="game">
+          <h2>{{game.game_name}}</h2>
+          <form id="form">
+            <p class="clasificacion">
+              <input id="radio1" type="radio" name="estrellas" value="5"><!--
+              --><label for="radio1">★</label><!--
+              --><input id="radio2" type="radio" name="estrellas" value="4"><!--
+              --><label for="radio2">★</label><!--
+              --><input id="radio3" type="radio" name="estrellas" value="3"><!--
+              --><label for="radio3">★</label><!--
+              --><input id="radio4" type="radio" name="estrellas" value="2"><!--
+              --><label for="radio4">★</label><!--
+              --><input id="radio5" type="radio" name="estrellas" value="1"><!--
+              --><label for="radio5">★</label>
+            </p>
+          <span id="arrow"></span>
+          </form>
+        </div>
     </div>
 </template>
 
@@ -74,6 +91,7 @@ export default {
 </script>
 
 <style scoped>
+
 #console{
     display: flex;
     width: 25%;
@@ -121,10 +139,17 @@ export default {
   display: flex;
   font-size: 1.5rem;
   justify-content: space-between;
+  align-items: center;
   width: 95%;
-  padding: 1.5rem 3rem;
+  padding: .75rem 0.75rem .75rem 1.5rem;
   border: 1px solid black;
   border-radius: 0.25rem;
+  transition: all 0.3s;
+}
+
+#container div:hover{
+  background: #CCF2E5;
+  cursor: pointer;
 }
 
 div.wrapper{
@@ -155,6 +180,49 @@ ol.breadcrumb li + li::before{
 a:hover{
     background: none;
     transform: scale(1.2,1.2);
+}
+
+/* Arrow */
+#arrow{
+  background: rgba(0, 0, 0, 0.767);
+  clip-path: polygon(0 0, 0 100%, 50% 50%, 0 0);
+  padding: 1rem;
+  transform: translateY(15%);
+}
+
+/* Stars */
+#form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+#form label {
+  font-size: 2.5rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  color: grey;
+}
+
+.clasificacion {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+label:hover,
+label:hover ~ label {
+  color: orange;
+  cursor: pointer
+}
+
+input[type="radio"]:checked ~ label {
+  color: orange;
 }
 
 /* Search */

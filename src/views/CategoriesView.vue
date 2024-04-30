@@ -81,6 +81,12 @@ export default {
   padding: 1rem;
   border: 1px solid black;
   border-radius: 0.25rem;
+  transition: 0.3s all;
+}
+
+#container div:hover{
+  background: #CCF2E5;
+  cursor: pointer;
 }
 
 h1 {
