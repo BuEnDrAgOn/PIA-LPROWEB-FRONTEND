@@ -91,6 +91,8 @@ export default {
     searchList(){
       if(this.games !== null){
         return this.games.filter(game => game.game_name.toLowerCase().includes(this.search.toLowerCase()))
+      }else{
+        return this.games
       }
     }
   }
