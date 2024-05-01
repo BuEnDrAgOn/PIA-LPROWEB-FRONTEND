@@ -25,7 +25,7 @@
 
     </div>
     <div id="container">
-        <div v-for="game in searchList" :key="game">
+        <div v-for="game in searchList" :key="game" @click="gamePage(game.game_name)">
           <h2>{{game.game_name}}</h2>
           <form id="form">
             <p class="clasificacion">
@@ -78,6 +78,10 @@ export default {
         this.loading = false;
       }
     },
+
+    gamePage(game){
+      this.$router.push({path: `/game/${game}`})
+    }
   },
 
   created() {

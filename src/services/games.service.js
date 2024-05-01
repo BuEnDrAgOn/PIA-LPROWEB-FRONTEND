@@ -6,5 +6,8 @@ export const gameService = {
     },
     getConsoleCategoryGames: async (params) =>{
         return Api.get(`/games/${params.consola}/${params.category}`)
+    },
+    getGame: async (params) => {
+        return Api.get(`/games/game/${params.game}`)
     }
 }

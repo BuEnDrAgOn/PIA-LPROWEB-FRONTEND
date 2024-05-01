@@ -2,7 +2,7 @@
   <h1>Categorias</h1>
 
   <div id="container">
-    <div v-for="categorie in categories" :key="categorie" @click="setCategory($event)">{{ categorie }}</div>
+    <div v-for="category in categories" :key="category" @click="categoryPage(category)">{{ category }}</div>
     
   </div>
 </template>
@@ -13,19 +13,17 @@ export default {
     return {
       categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
       consoles: null,
-      category: null
     };
   },
 
   methods:{
-    setCategory(e){
-      this.category = e.target.innerText
+    categoryPage(category){
       let path = this.$route.path
       path = path.split('/')
       if(this.consoles == null){
         this.consoles = path[2]
       }
-      this.$router.push({path: `/${this.consoles}/${this.category}`})
+      this.$router.push({path: `/${this.consoles}/${category}`})
     }
 
   },
