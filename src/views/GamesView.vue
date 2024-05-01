@@ -80,7 +80,7 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.getGames(this.$route.params.consola, this.$route.params.category)
     
     this.path = this.path.split('/')
