@@ -12,7 +12,7 @@
         <div id="gameScore">
             <div>
                 <h2>Calificación</h2>
-                <span class="score"><span ref="score" :style="{width: starsWidth}"></span></span>
+                <span class="score" ref="score"><span :style="{width: starsWidth}"></span></span>
             </div>          
         </div>
     </div>
@@ -61,6 +61,7 @@ export default {
 
             const width = (rating * starWidth) + (4 * gaps)
             this.starsWidth = `${width}px`
+            console.log(this.starsWidth)
         })
 
     },
