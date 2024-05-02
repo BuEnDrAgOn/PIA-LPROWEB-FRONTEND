@@ -255,7 +255,7 @@ h1 + ul{
   justify-content: space-around;
   align-items: center;
   transition: opacity 0.15s ease-in, top 0.15s ease-in, width 0.15s ease-in;
-  transition-delay: 0.5s;
+  transition-delay: 0.2s;
 
 }
 #user-score-container .tooltip::after {
