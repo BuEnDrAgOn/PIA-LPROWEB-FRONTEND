@@ -1,4 +1,5 @@
 <template>
+<div id="main">
     <div class="wrapper">
         <img id="gameImg" src="" alt="a">
 
@@ -13,11 +14,37 @@
             <div>
                 <h2>Calificación</h2>
                 <span class="score" ref="score"><span :style="{width: starsWidth}"></span></span>
-            </div>          
+            </div>
         </div>
     </div>
-    <!-- <div id="container">
-    </div> -->
+    <div id="user-score-wrapper">
+        <div id="user-score-container">
+            <!-- <input type="checkbox" /> -->
+            <div class="btn">Calificar</div>
+            <div class="tooltip">
+                <form id="form">
+                    <p class="clasificacion">
+                        <input id="radio1" type="radio" name="estrellas" value="5"><!--
+                        --><label for="radio1">★</label><!--
+                        --><input id="radio2" type="radio" name="estrellas" value="4"><!--
+                        --><label for="radio2">★</label><!--
+                        --><input id="radio3" type="radio" name="estrellas" value="3"><!--
+                        --><label for="radio3">★</label><!--
+                        --><input id="radio4" type="radio" name="estrellas" value="2"><!--
+                        --><label for="radio4">★</label><!--
+                        --><input id="radio5" type="radio" name="estrellas" value="1"><!--
+                        --><label for="radio5">★</label>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <section id="content">
+
+        </section>
+    </div>
+</div>
 </template>
 
 <script>
@@ -70,6 +97,12 @@ export default {
 </script>
 
 <style scoped>
+#main{
+    display: flex;
+    flex-flow: wrap column;
+    padding: 3rem;
+}
+
 /* Header */
 .wrapper{
     display: flex;
@@ -114,57 +147,10 @@ h1 + ul{
     color: #828282;
 }
 
-/* Content */
-
-#container {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 3rem 0;
-  height: 72%;
-  margin-top: 1rem;
-  width: 100%;
-  /* flex-grow: 1; */
-  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
-  border-radius: 10px;
-  overflow-y: auto;
-  gap: 3rem;
-}
-
-#container::-webkit-scrollbar{
-    position: absolute;
-    right: 0;
-    width: 10px;
-    background-color: #f1f1f1;
-    border-radius: 20px;
-}
-
-#container::-webkit-scrollbar-thumb{
-    background: #e1e1e1;
-    border-radius: 20px;
-    box-shadow: 1px 1px 1px #333;
-}
-
-#container::-webkit-scrollbar-thumb:hover{
-    background: #ccc;
-}
-
-#container div{
-    display: flex;
-    font-size: 1.5rem;
-    justify-content: center;
-    width: 80%;
-    padding: 1rem;
-    border: 1px solid black;
-    border-radius: 0.25rem;
-}
-
 /* gameHeader */
 #gameImg{
     border: 1px solid black;
 }
-
-/* YourScore */
 
 /* GameScore */
 #gameScore h2{
@@ -194,4 +180,186 @@ h1 + ul{
   left: 0;
   overflow: hidden;
 }
+
+/* Content */
+.container{
+    display: flex;
+    width: 90%;
+    flex: 1 1;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+}
+
+/* UserScore */
+#user-score-wrapper{
+    display: flex;
+    width: 90%;
+    justify-content: flex-end;
+}
+
+#user-score-container {
+  --background: #62abff;
+  --icon-color: #414856;
+  --shape-color-01: #b8cbee;
+  --shape-color-02: #7691e8;
+  --shape-color-03: #fdd053;
+  --width: 2rem;
+  --height: 2rem;
+  --border-radius: var(--height);
+  width: 10%;
+  position: relative;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+}
+#user-score-container .btn {
+  background: var(--background);
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  position: relative;
+  z-index: 3;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px rgba(65, 72, 86, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-animation: plus-animation-reverse 0.5s ease-out forwards;
+  animation: plus-animation-reverse 0.5s ease-out forwards;
+}
+#user-score-container .btn::before,
+#user-score-container .btn::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 4px;
+  background: #fff;
+}
+
+#user-score-container .tooltip {
+  width: 90px;
+  height: 75px;
+  border-radius: 70px;
+  position: absolute;
+  background: #fff;
+  z-index: 2;
+  padding: 0 15px;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  opacity: 0;
+  top: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  transition: opacity 0.15s ease-in, top 0.15s ease-in, width 0.15s ease-in;
+  transition-delay: 0.5s;
+
+}
+#user-score-container .tooltip::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  left: 50%;
+  margin-left: -10px;
+  bottom: -8px;
+  transform: rotate(45deg);
+  z-index: 0;
+}
+#user-score-container input {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  position: absolute;
+  z-index: 5;
+  opacity: 0;
+}
+
+#user-score-container:hover .tooltip {
+  width: 190px;
+  height: 70px;
+  -webkit-animation: stretch-animation 1s ease-out forwards 0.15s;
+  animation: stretch-animation 1s ease-out forwards 0.15s;
+  top: -90px;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@-webkit-keyframes stretch-animation {
+  0% {
+    transform: scale(1, 1);
+  }
+  10% {
+    transform: scale(1.1, 0.9);
+  }
+  30% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.05, 0.95);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+@keyframes stretch-animation {
+  0% {
+    transform: scale(1, 1);
+  }
+  10% {
+    transform: scale(1.1, 0.9);
+  }
+  30% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.05, 0.95);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* Stars UserScore */
+#form {
+    display: flex;
+}
+
+#form p {
+  text-align: center;
+}
+
+#form label {
+  font-size: 1.5rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  color: grey;
+}
+
+.clasificacion {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+label:hover,
+label:hover ~ label {
+  color: orange;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked ~ label {
+  color: orange;
+}
+
 </style>
