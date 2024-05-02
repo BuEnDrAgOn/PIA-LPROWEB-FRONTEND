@@ -27,21 +27,10 @@
     <div id="container">
         <div v-for="game in searchList" :key="game" @click="gamePage(game.game_name)">
           <h2>{{game.game_name}}</h2>
-          <form id="form">
-            <p class="clasificacion">
-              <input id="radio1" type="radio" name="estrellas" value="5"><!--
-              --><label for="radio1">★</label><!--
-              --><input id="radio2" type="radio" name="estrellas" value="4"><!--
-              --><label for="radio2">★</label><!--
-              --><input id="radio3" type="radio" name="estrellas" value="3"><!--
-              --><label for="radio3">★</label><!--
-              --><input id="radio4" type="radio" name="estrellas" value="2"><!--
-              --><label for="radio4">★</label><!--
-              --><input id="radio5" type="radio" name="estrellas" value="1"><!--
-              --><label for="radio5">★</label>
-            </p>
-          <span id="arrow"></span>
-          </form>
+          <div class="rating">
+            <span class="score"><span v-score="game.game_score"></span></span>
+            <span id="arrow"></span>
+          </div>
         </div>
     </div>
 </template>
@@ -58,6 +47,19 @@ export default {
 
       search:''
     };
+  },
+
+  directives:{
+    'score':{
+      mounted(el, binding){
+        const rating = parseFloat(binding.value)
+        const starWidth = (el.offsetWidth - 4*5) / 5.0
+        const gaps = Math.floor(rating)
+
+        const width = (rating * starWidth) + (4 * gaps)
+        el.style.width = `${width}px`
+      }
+    }
   },
 
   methods: {
@@ -81,10 +83,10 @@ export default {
 
     gamePage(game){
       this.$router.push({path: `/game/${game}`})
-    }
+    },
   },
 
-  created() {
+  mounted() {
     this.getGames(this.$route.params.consola, this.$route.params.category)
     
     this.path = this.path.split('/')
@@ -148,7 +150,7 @@ export default {
   background: #ccc;
 }
 
-#container div {
+#container > div {
   display: flex;
   font-size: 1.5rem;
   justify-content: space-between;
@@ -171,6 +173,7 @@ div.wrapper{
     padding: 0 2.25rem;
 }
 
+/* Breadcrumb */
 ol.breadcrumb{
     padding: 0;
     display: flex;
@@ -195,47 +198,49 @@ a:hover{
     transform: scale(1.2,1.2);
 }
 
-/* Arrow */
-#arrow{
-  background: rgba(0, 0, 0, 0.767);
-  clip-path: polygon(0 0, 0 100%, 50% 50%, 0 0);
-  padding: 1rem;
-  transform: translateY(15%);
-}
-
-/* Stars */
-#form {
+/* Rating */
+.rating{
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 2rem;
 }
 
-#form label {
+/* Arrow */
+#arrow{
+  background: rgba(0, 0, 0, 0.767);
+  clip-path: polygon(0 0, 0 100%, 50% 50%, 0 0);
+  padding: 1rem;
+  transform: translateY(10%);
+}
+
+/* GameScore */
+#gameScore h2{
+    font-size: 1.8rem;
+}
+
+.score {
+  margin-bottom: 5px;
+  display: inline-block;
   font-size: 2.5rem;
+  letter-spacing: 4px;
+  color: gray;
+  position: relative;
+  text-shadow: 0px 0px 4px #FFF;
 }
 
-input[type="radio"] {
-  display: none;
+.score::before,
+.score span::before {
+  content: "★★★★★";
+  display: block;
 }
 
-label {
-  color: grey;
-}
-
-.clasificacion {
-  direction: rtl;
-  unicode-bidi: bidi-override;
-}
-
-label:hover,
-label:hover ~ label {
+.score span {
   color: orange;
-  cursor: pointer
-}
-
-input[type="radio"]:checked ~ label {
-  color: orange;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 /* Search */

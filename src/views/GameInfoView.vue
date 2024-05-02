@@ -1,11 +1,23 @@
 <template>
     <div class="wrapper">
-        <img src="" alt="">
-        <h1 id="game">{{game.gameName}}</h1>
+        <img id="gameImg" src="" alt="a">
 
+        <div>
+            <h1>{{game.gameName}}</h1>
+            <ul>
+                <li id="categorias"><span>Categorías: </span>{{game.gameCategories}}</li>
+                <li id="categorias"><span>Consolas: </span>{{game.gameConsoles}}</li>
+            </ul>
+        </div>
+        <div id="gameScore">
+            <div>
+                <h2>Calificación</h2>
+                <span class="score"><span ref="score" :style="{width: starsWidth}"></span></span>
+            </div>          
+        </div>
     </div>
-    <div id="container">
-    </div>
+    <!-- <div id="container">
+    </div> -->
 </template>
 
 <script>
@@ -15,10 +27,12 @@ export default {
         return {
             game:{
                 gameName: this.$route.params.game,
+                gameScore: 0,
                 gameInfo: null,
-                gameConsoles: null,
-                gameCategories: null
-            }
+                gameConsoles: [],
+                gameCategories: []
+            },
+            starsWidth: '0px'
         }
     },
     methods:{
@@ -26,19 +40,81 @@ export default {
             await gameService.getGame({game}).then(res =>{
                 const {data} = res
                 console.log(data)
+                data.games_console.map(e =>{
+                    this.game.gameConsoles.push(e.consoles.console)
+                })
+                data.games_category.map(e =>{
+                    this.game.gameCategories.push(e.categories.category)
+                })
+                this.game.gameConsoles = this.game.gameConsoles.join(', ')
+                this.game.gameCategories = this.game.gameCategories.join(', ')
             })
         }
 
     },
 
-    created(){
-        this.getGame(this.game.gameName)
-    }
+    mounted(){
+        this.getGame(this.game.gameName).then(() => {
+            const rating = parseFloat(this.game.gameScore)
+            const starWidth = (this.$refs.score.offsetWidth - 4*5) / 5.0
+            const gaps = Math.floor(rating)
+
+            const width = (rating * starWidth) + (4 * gaps)
+            this.starsWidth = `${width}px`
+        })
+
+    },
 }
 
 </script>
 
 <style scoped>
+/* Header */
+.wrapper{
+    display: flex;
+    width: 100%;
+    flex-flow: wrap column;
+    justify-content: space-between;
+    align-content: flex-start;
+    height: 250px;
+}
+
+.wrapper #gameImg{
+   width: 250px;
+   flex: 1 1 100%;
+}
+
+.wrapper > div{
+    padding-left: 2rem;
+}
+
+.wrapper > div:first-of-type{
+    padding-top: 1rem;
+}
+
+.wrapper h1{
+    font-size: 2rem;
+}
+
+h1 + ul{
+    display: flex;
+    flex-flow: wrap column;
+    gap: 0.5rem;
+    list-style: none;
+    padding-inline-start: 1rem;
+}
+
+#categorias, #consolas{
+    color: #b2b2b2
+}
+
+#categorias > span,
+#consolas > span{
+    color: #828282;
+}
+
+/* Content */
+
 #container {
   display: flex;
   flex-flow: column;
@@ -82,10 +158,39 @@ export default {
     border-radius: 0.25rem;
 }
 
-h1{
-    padding-left: 2rem;
-    font-style: italic;
-    height: 7%;
+/* gameHeader */
+#gameImg{
+    border: 1px solid black;
 }
 
+/* YourScore */
+
+/* GameScore */
+#gameScore h2{
+    font-size: 1.8rem;
+}
+
+.score {
+  margin-bottom: 5px;
+  display: inline-block;
+  font-size: 2rem;
+  letter-spacing: 4px;
+  color: gray;
+  position: relative;
+  text-shadow: 0px 0px 4px #FFF;
+}
+
+.score::before,
+.score span::before {
+  content: "★★★★★";
+  display: block;
+}
+
+.score span {
+  color: orange;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
 </style>
