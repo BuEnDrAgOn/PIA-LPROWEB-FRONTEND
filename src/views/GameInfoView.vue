@@ -53,11 +53,9 @@
 
           <article>
             <h2>Características Generales</h2>
-            <div class="column">
               <ul class="features row">
                   <li v-for="gameF in game.gameInfo.game_features_general" :key="gameF" lang="de">{{gameF}}</li>  
               </ul>
-            </div>
            
           </article>
 
@@ -242,17 +240,14 @@ h1 + ul{
 .row{
   display: flex;
   flex-flow: wrap row;
+  width: 100%;
   gap: 0 2rem;
 }
 
-.column{
-  display: flex;
-  flex-flow: wrap column;
-}
-
-.column li{
-  hyphens: auto;
-  width: 30%;
+.row li{
+  text-align: justify;
+  max-width: 30%;
+  align-self: flex-start;
 }
 
 article > h2{
