@@ -28,7 +28,9 @@
         <div v-for="game in searchList" :key="game" @click="gamePage(game.game_name)">
           <h2>{{game.game_name}}</h2>
           <div class="rating">
-            <span class="score"><span v-score="game.game_score"></span></span>
+            <p>
+              <span class="score"><span v-score="game.game_score"></span></span>
+            </p>
             <span id="arrow"></span>
           </div>
         </div>

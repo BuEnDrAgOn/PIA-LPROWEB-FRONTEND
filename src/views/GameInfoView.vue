@@ -53,7 +53,7 @@
 
           <article>
             <h2>Características Generales</h2>
-              <ul class="features row">
+              <ul class="features row" v-if="game.gameInfo">
                   <li v-for="gameF in game.gameInfo.game_features_general" :key="gameF" lang="de">{{gameF}}</li>  
               </ul>
            
@@ -61,7 +61,7 @@
 
           <article>
             <h2>Carecterísticas Específicas</h2>
-              <ul class="features row">
+              <ul class="features row" v-if="game.gameInfo">
                   <li v-for="gameF in game.gameInfo.game_features_specific" :key="gameF" lang="de">{{gameF}}</li>  
               </ul>
           </article>
@@ -96,18 +96,22 @@ export default {
                 data.games_category.map(e =>{
                     this.game.gameCategories.push(e.categories.category)
                 })
+                console.log(data)
+                this.game.gameScore = data.game_score
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
                 this.game.gameInfo = data.games_info
-                this.game.gameInfo.game_features_general = this.game.gameInfo.game_features_general.split('|')
-                this.game.gameInfo.game_features_specific = this.game.gameInfo.game_features_specific.split('|')
-                console.log(this.game.gameInfo.game_features_general)
+                if(this.game.gameInfo !== null){
+                  this.game.gameInfo.game_features_general = this.game.gameInfo.game_features_general.split('|')
+                  this.game.gameInfo.game_features_specific = this.game.gameInfo.game_features_specific.split('|')
+                }
             })
         }
 
     },
 
     mounted(){
+      this.game.gameName = this.game.gameName.replace(/%20/gm, ' ')
         this.getGame(this.game.gameName).then(() => {
             const rating = parseFloat(this.game.gameScore)
             const starWidth = (this.$refs.score.offsetWidth - 4*5) / 5.0
