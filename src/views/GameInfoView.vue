@@ -13,7 +13,10 @@
         <div id="gameScore">
             <div>
                 <h2>Calificación</h2>
-                <span class="score" ref="score"><span :style="{width: starsWidth}"></span></span>
+                <div>
+                  <span class="score" ref="score"><span :style="{width: starsWidth}"></span></span>
+                  <span class="score-value">{{game.gameScore}}/5</span>
+                </div>
             </div>
         </div>
     </div>
@@ -41,6 +44,29 @@
     </div>
     <div class="container">
         <section id="content">
+          <article>
+            <h2>Sinópsis</h2>
+            <p v-if="game.gameInfo">
+              {{game.gameInfo.game_sinopsis}}
+            </p>
+          </article>
+
+          <article>
+            <h2>Características Generales</h2>
+            <div class="column">
+              <ul class="features row">
+                  <li v-for="gameF in game.gameInfo.game_features_general" :key="gameF" lang="de">{{gameF}}</li>  
+              </ul>
+            </div>
+           
+          </article>
+
+          <article>
+            <h2>Carecterísticas Específicas</h2>
+              <ul class="features row">
+                  <li v-for="gameF in game.gameInfo.game_features_specific" :key="gameF" lang="de">{{gameF}}</li>  
+              </ul>
+          </article>
 
         </section>
     </div>
@@ -55,7 +81,7 @@ export default {
             game:{
                 gameName: this.$route.params.game,
                 gameScore: 0,
-                gameInfo: null,
+                gameInfo: false,
                 gameConsoles: [],
                 gameCategories: []
             },
@@ -66,7 +92,6 @@ export default {
         async getGame(game){
             await gameService.getGame({game}).then(res =>{
                 const {data} = res
-                console.log(data)
                 data.games_console.map(e =>{
                     this.game.gameConsoles.push(e.consoles.console)
                 })
@@ -75,6 +100,10 @@ export default {
                 })
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
+                this.game.gameInfo = data.games_info
+                this.game.gameInfo.game_features_general = this.game.gameInfo.game_features_general.split('|')
+                this.game.gameInfo.game_features_specific = this.game.gameInfo.game_features_specific.split('|')
+                console.log(this.game.gameInfo.game_features_general)
             })
         }
 
@@ -88,7 +117,6 @@ export default {
 
             const width = (rating * starWidth) + (4 * gaps)
             this.starsWidth = `${width}px`
-            console.log(this.starsWidth)
         })
 
     },
@@ -97,6 +125,13 @@ export default {
 </script>
 
 <style scoped>
+/* font */
+@font-face {
+  font-family: infoGames;
+  src: url(@/assets/fonts/DancingScript-VariableFont_wght.ttf) format('truetype');
+  font-weight: bold;
+}
+
 #main{
     display: flex;
     flex-flow: wrap column;
@@ -181,7 +216,16 @@ h1 + ul{
   overflow: hidden;
 }
 
+.score-value{
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
 /* Content */
+#content{
+  width: 100%;
+}
+
 .container{
     display: flex;
     width: 90%;
@@ -192,6 +236,30 @@ h1 + ul{
     border: 1px solid black;
 }
 
+.features{
+  padding-inline-start: 1.5rem;
+}
+.row{
+  display: flex;
+  flex-flow: wrap row;
+  gap: 0 2rem;
+}
+
+.column{
+  display: flex;
+  flex-flow: wrap column;
+}
+
+.column li{
+  hyphens: auto;
+  width: 30%;
+}
+
+article > h2{
+  padding-inline-start: 2rem;
+  font-family: infoGames;
+}
+
 /* UserScore */
 #user-score-wrapper{
     display: flex;
@@ -200,7 +268,7 @@ h1 + ul{
 }
 
 #user-score-container {
-  --background: #62abff;
+  --background: #00bd7e;
   --icon-color: #414856;
   --shape-color-01: #b8cbee;
   --shape-color-02: #7691e8;
@@ -230,7 +298,16 @@ h1 + ul{
   align-items: center;
   -webkit-animation: plus-animation-reverse 0.5s ease-out forwards;
   animation: plus-animation-reverse 0.5s ease-out forwards;
+  transition: all 0.3s;
 }
+
+#user-score-container:hover .btn{
+  background: white;
+  color: #00bd7e;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  cursor: pointer;
+}
+
 #user-score-container .btn::before,
 #user-score-container .btn::after {
   content: "";
