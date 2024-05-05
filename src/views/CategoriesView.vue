@@ -2,16 +2,17 @@
   <h1>Categorias</h1>
 
   <div id="container">
-    <div v-for="category in categories" :key="category" @click="categoryPage(category)">{{ category }}</div>
+    <div v-for="category in categories" :key="category" @click="categoryPage(category.category)">{{ category.category }}</div>
     
   </div>
 </template>
 
 <script>
+import { categoriesService } from '@/services';
 export default {
   data() {
     return {
-      categories: ['RPG', 'MMO', 'Aventura', 'Hack and Slash'],
+      categories: [],
       consoles: null,
     };
   },
@@ -34,6 +35,12 @@ export default {
         this.consoles = newConsole
       }
     }
+  },
+  mounted(){
+    categoriesService.getAllCategories().then((response) => {
+      const {data} = response
+      this.categories = data
+    })
   }
 };
 </script>
