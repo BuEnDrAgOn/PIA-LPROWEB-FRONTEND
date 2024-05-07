@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CategoriesView from '../views/CategoriesView.vue'
 import GamesView from '../views/GamesView.vue'
 import GameInfoView from '../views/GameInfoView.vue'
+import GameCRUDView from '../views/admin/GameCRUDView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,14 @@ const router = createRouter({
       path:"/game/:game",
       name: 'gameInfo',
       component: GameInfoView
+    },
+
+    // ADMIN
+
+    {
+      path:"/admin/games",
+      name: "gameCRUD",
+      component: GameCRUDView
     }
     // {
     //   path: '/about',
