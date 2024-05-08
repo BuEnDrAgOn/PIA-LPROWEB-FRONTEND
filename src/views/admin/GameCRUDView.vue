@@ -33,7 +33,7 @@
                         <input type="text" :value='game.game_name'>
                     </td>
                     <td class="checkbox-dropdown">
-                        <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Consolas</span>
+                        <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
                         <ul :class="{'visible': visibleConsoleLists[game.game_id]}">
                             <li v-for="consola in consoles" :key="consola">
                                 <label class="container">
@@ -43,6 +43,20 @@
                                     </svg>
                                 </label>
                                 <label :for="consola.console + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{consola.console}}</label>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="checkbox-dropdown">
+                        <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
+                        <ul :class="{'visible': visibleCategoryLists[game.game_id]}">
+                            <li v-for="category in categories" :key="category">
+                                <label class="container">
+                                    <input type="checkbox" :id="category.category + game.game_id" @change="handleCategoryChange(game, category, $event)">
+                                    <svg viewBox="0 0 64 64" height="2em" width="2em">
+                                        <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
+                                    </svg>
+                                </label>
+                                <label :for="category.category + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{category.category}}</label>
                             </li>
                         </ul>
                     </td>
@@ -63,6 +77,7 @@ export default {
             search: '',
 
             visibleConsoleLists:{},
+            visibleCategoryLists:{},
             lastSelectedGameId: null
         }
     },
@@ -96,8 +111,6 @@ export default {
             } else if(!isChecked && isConsoleInGame){
                 game.games_console = game.games_console.filter(item => item.console_id !== consola.console_id);
             }
-
-            console.log(this.games)
         },
 
         toggleConsoleList(gameId){
@@ -106,29 +119,61 @@ export default {
             if (this.lastSelectedGameId !== gameId) {
                 if (this.lastSelectedGameId !== null) {
                     this.visibleConsoleLists[this.lastSelectedGameId] = false;
+                    this.visibleCategoryLists[this.lastSelectedGameId] = false;
+
+                }
+                this.lastSelectedGameId = gameId;
+            }
+        },
+
+        // Category List Display
+
+        handleCategoryChange(game, category, event){
+            const isChecked = event.target.checked
+            const isCategoryInGame = game.games_category.some(item => item.category_id === category.category_id);
+            
+            if (isChecked && !isCategoryInGame){
+                game.games_category.push({ game_id: game.game_id, category_id: category.category_id });
+            } else if(!isChecked && isCategoryInGame){
+                game.games_category = game.games_category.filter(item => item.category_id !== category.category_id);
+            }
+
+            console.log(this.games[0].games_category[0])
+        },
+
+        toggleCategoryList(gameId){
+            this.visibleCategoryLists[gameId] = !this.visibleCategoryLists[gameId];
+
+            if (this.lastSelectedGameId !== gameId) {
+                if (this.lastSelectedGameId !== null) {
+                    this.visibleConsoleLists[this.lastSelectedGameId] = false;
+                    this.visibleCategoryLists[this.lastSelectedGameId] = false;
                 }
                 this.lastSelectedGameId = gameId;
             }
         }
-
-        // Category List Display
     },
 
     mounted(){
-        this.getCategories()
-        this.getConsoles().then(() =>{
-            this.getGames().then(() => {
-                // Iterar sobre los juegos
-                this.games.forEach(game => {
-                    // Iterar sobre las consolas
-                    this.consoles.forEach(consola => {
-                        // Verificar si la consola está asociada al juego
-                        const isConsoleInGame = game.games_console.some(item => item.console_id === consola.console_id);
-                        // Si la consola está asociada al juego, marcar el checkbo
-                        if (isConsoleInGame) {
-                            document.getElementById(consola.console + game.game_id).checked = true
-                        }
-                    })
+        Promise.all([this.getCategories(), this.getConsoles(), this.getGames()]).then(() =>{
+            // Iterar sobre los juegos
+            this.games.forEach(game => {
+                // Iterar sobre las consolas
+                this.consoles.forEach(consola => {
+                    // Verificar si la consola está asociada al juego
+                    const isConsoleInGame = game.games_console.some(item => item.console_id === consola.console_id);
+                    // Si la consola está asociada al juego, marcar el checkbo
+                    if (isConsoleInGame) {
+                        document.getElementById(consola.console + game.game_id).checked = true
+                    }
+                })
+
+                this.categories.forEach(category => {
+                    const isCategoryInGame = game.games_category.some(item => item.category_id === category.category_id);
+
+                    if (isCategoryInGame){
+                        document.getElementById(category.category + game.game_id).checked = true
+                    }
                 })
             })
         })
