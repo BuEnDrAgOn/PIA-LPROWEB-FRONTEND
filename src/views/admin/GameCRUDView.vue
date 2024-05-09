@@ -137,8 +137,6 @@ export default {
             } else if(!isChecked && isCategoryInGame){
                 game.games_category = game.games_category.filter(item => item.category_id !== category.category_id);
             }
-
-            console.log(this.games[0].games_category[0])
         },
 
         toggleCategoryList(gameId){
@@ -243,6 +241,16 @@ h1{
 }
 
 /* Table */
+table{
+    width: 100%;
+}
+
+td{
+    position: relative;    
+    text-align: center;
+    vertical-align: middle;
+}
+
 tbody tr td > *{
     padding: 0.5rem 1rem;
 }
@@ -309,7 +317,9 @@ ul{
 
     opacity: 0;
     transition: all 0.3s;
-    transform: translateY(-20%);
+    transform: translate(-50%, -20%);
+    left: 50%;
+    z-index: 1;
 }
 
 ul::-webkit-scrollbar{
@@ -354,7 +364,7 @@ ul label{
 
 .checkbox-dropdown ul.visible{
     visibility: visible;
-    transform: translateY(0%);
+    transform: translate(-50%, 0);
     opacity: 1;
 }
 
