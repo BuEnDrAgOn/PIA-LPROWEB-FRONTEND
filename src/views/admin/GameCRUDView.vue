@@ -25,6 +25,7 @@
                     <th>Consolas</th>
                     <th>Categorías</th>
                     <th>Banner</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +60,78 @@
                                 <label :for="category.category + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{category.category}}</label>
                             </li>
                         </ul>
+                    </td>
+                    <td>
+                        <!-- Falta contenido aquí -->
+                    </td>
+                    <td>
+                        <div>
+                            <button class="update">
+                                <div class="svg-wrapper-1">
+                                    <div class="svg-wrapper">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path
+                                        fill="currentColor"
+                                        d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                        ></path>
+                                    </svg>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <button class="bin-button">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 39 7"
+                                    class="bin-top"
+                                >
+                                    <line stroke-width="4" stroke="white" y2="5" x2="39" y1="5"></line>
+                                    <line
+                                    stroke-width="3"
+                                    stroke="white"
+                                    y2="1.5"
+                                    x2="26.0357"
+                                    y1="1.5"
+                                    x1="12"
+                                    ></line>
+                                </svg>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 33 39"
+                                    class="bin-bottom"
+                                >
+                                    <mask fill="white" id="path-1-inside-1_8_19">
+                                    <path
+                                        d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
+                                    ></path>
+                                    </mask>
+                                    <path
+                                    mask="url(#path-1-inside-1_8_19)"
+                                    fill="white"
+                                    d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+                                    ></path>
+                                    <path stroke-width="4" stroke="white" d="M12 6L12 29"></path>
+                                    <path stroke-width="4" stroke="white" d="M21 6V29"></path>
+                                </svg>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 89 80"
+                                    class="garbage"
+                                >
+                                    <path
+                                    fill="white"
+                                    d="M20.5 10.5L37.5 15.5L42.5 11.5L51.5 12.5L68.75 0L72 11.5L79.5 12.5H88.5L87 22L68.75 31.5L75.5066 25L86 26L87 35.5L77.5 48L70.5 49.5L80 50L77.5 71.5L63.5 58.5L53.5 68.5L65.5 70.5L45.5 73L35.5 79.5L28 67L16 63L12 51.5L0 48L16 25L22.5 17L20.5 10.5Z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -180,6 +253,7 @@ export default {
     computed:{
     searchList(){
       if(this.games !== null){
+        console.log(this.games)
         return this.games.filter(game => game.game_name.toLowerCase().includes(this.search.toLowerCase()))
       }else{
         return this.games
@@ -224,7 +298,7 @@ export default {
     background: #ccc;
 }
 
-#container div{
+#container > div{
     display: flex;
     font-size: 1.5rem;
     justify-content: center;
@@ -242,16 +316,35 @@ h1{
 
 /* Table */
 table{
+    table-layout: fixed;
+    border-collapse: collapse;
     width: 100%;
+}
+
+
+th, td{
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+th:last-child{
+    width: 10%;
+}
+
+tbody tr:nth-child(odd){
+    background: #f2f2f2;
 }
 
 td{
     position: relative;    
     text-align: center;
     vertical-align: middle;
+
+    border-bottom: 1px solid #ccc;
 }
 
 tbody tr td > *{
+    width: 100%;
     padding: 0.5rem 1rem;
 }
 
@@ -270,12 +363,13 @@ tbody tr td > *{
 }
 
 .checkbox-dropdown > span{
-    width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 50%;
     border-radius: 5px;
     cursor: pointer;
-    border: 1px solid #ccc;
-
+    box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
     background: rgb(200, 200, 200);
     background: linear-gradient(135deg, var(--mycolor1) 40%, var(--mycolor2) 60%);
     background-size: 150% 100%;
@@ -298,7 +392,7 @@ tbody tr td > *{
 }
 
 /* Dropdown checkbox */
-ul{
+tr > td > ul{
     display: flex;
     flex-flow: column;
     gap: 1rem;
@@ -397,6 +491,125 @@ ul label{
   stroke-dasharray: 70.5096664428711 9999999;
   stroke-dashoffset: -262.2723388671875;
 }
+
+
+/* Action buttons */
+td > div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+/* Delete */
+.bin-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 45%;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(255, 95, 95);
+  cursor: pointer;
+  border: 2px solid rgb(255, 201, 201);
+  transition-duration: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.bin-bottom {
+  width: 50%;
+  z-index: 2;
+}
+.bin-top {
+  width: 50%;
+  transform-origin: right;
+  transition-duration: 0.3s;
+  z-index: 2;
+}
+.bin-button:hover .bin-top {
+  transform: rotate(45deg);
+}
+.bin-button:hover {
+  background-color: rgb(255, 0, 0);
+}
+.bin-button:active {
+  transform: scale(0.9);
+}
+.garbage {
+  position: absolute;
+  width: 13.6363636364%;
+  height: auto;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.bin-button:hover .garbage {
+  animation: throw 0.4s linear;
+}
+@keyframes throw {
+  from {
+    transform: translate(-400%, -700%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0%, 0%);
+    opacity: 1;
+  }
+}
+
+/* Update */
+.update {
+    display: flex;
+    width: calc(45% - 2px);
+    height: 38px;
+    font-family: inherit;
+    background: royalblue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.update svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+  width: 60%;
+}
+
+.update .svg-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.update:hover .svg-wrapper {
+    display: flex;
+    justify-content: center;
+  animation: fly-1 0.6s ease-in-out infinite alternate;
+}
+
+.update:hover svg {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.update:active {
+  transform: scale(0.95);
+}
+
+@keyframes fly-1 {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.1em);
+  }
+}
+
 
 
 /* Search */
