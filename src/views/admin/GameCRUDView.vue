@@ -66,7 +66,7 @@
                     </td>
                     <td>
                         <div>
-                            <button class="update">
+                            <button class="update" @click="updateGame(game)">
                                 <div class="svg-wrapper-1">
                                     <div class="svg-wrapper">
                                     <svg
@@ -83,7 +83,7 @@
                                 </div>
                             </button>
 
-                            <button class="bin-button">
+                            <button class="bin-button" @click="deleteGame(game.game_id)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -173,6 +173,16 @@ export default {
             })
         },
 
+        async updateGame(game){
+            await gameService.updateGame(game)
+        },
+
+        async deleteGame(gameId){
+            await gameService.deleteGame(gameId).then(() =>{
+                this.games = this.games.filter(game => game.game_id !== gameId)
+            })
+        },
+
         // Console List Display
 
         handleConsoleChange(game, consola, event){
@@ -253,7 +263,6 @@ export default {
     computed:{
     searchList(){
       if(this.games !== null){
-        console.log(this.games)
         return this.games.filter(game => game.game_name.toLowerCase().includes(this.search.toLowerCase()))
       }else{
         return this.games
