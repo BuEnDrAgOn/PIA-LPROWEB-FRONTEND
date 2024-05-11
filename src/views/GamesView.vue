@@ -166,7 +166,22 @@ export default {
 
 #container div:hover{
   background: #CCF2E5;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+}
+
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
 }
 
 div.wrapper{

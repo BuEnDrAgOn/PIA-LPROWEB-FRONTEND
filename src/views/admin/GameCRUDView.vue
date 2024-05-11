@@ -36,7 +36,7 @@
                 <TransitionGroup>
                     <tr v-for="game in searchList" :key="game">
                         <td>
-                            <input type="text" :value='game.game_name'>
+                            <input type="text" :value='game.game_name' @input="game.game_name = $event.target.value">
                         </td>
                         <td class="checkbox-dropdown">
                             <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
@@ -71,7 +71,7 @@
                         </td>
                         <td>
                             <div>
-                                <button class="update" @click="updateGame(game)">
+                                <button class="update" @click="typeof game.game_id == 'string' ? createGame(game) : updateGame(game)" :style="{'background': typeof game.game_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -260,17 +260,16 @@ export default {
                 top: this.$refs.thead.offsetTop,
                 behavior: 'smooth'
             })
+            console.log(this.games)
         },
 
         createGame(game){
-            const removeGameId = obj => {
-                for (const key in obj) {
-                    if (key === 'game_id') delete obj[key];
-                    else if (typeof obj[key] === 'object') removeGameId(obj[key]);
+            gameService.createGame(game).then(response => {
+                const index = this.games.findIndex(obj => obj.game_id === game.game_id);
+                if (index !== -1) {
+                    this.games[index].game_id = response.data.game_id;
                 }
-            };
-            
-            removeGameId(game)
+            })
         }
     },
 
@@ -436,11 +435,12 @@ tbody tr td > *{
     margin: 0 auto;
     width: 50%;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
     box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
     background: rgb(200, 200, 200);
     background: linear-gradient(135deg, var(--mycolor1) 40%, var(--mycolor2) 60%);
     background-size: 150% 100%;
+    animation: cursor 0.4s linear infinite;
 
     transition: --mycolor1 1s, --mycolor2 1s, background-position 0.3s, box-shadow 0.3s, border-color 0.3s, color 0.3s;
 }
@@ -449,7 +449,9 @@ tbody tr td > *{
     background-position: 50%;
     --mycolor1: rgb(204, 242, 229);
     --mycolor2: rgb(204, 242, 229);
-    cursor: pointer;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+    animation: cursor 0.4s linear infinite;
+
     border-color: white;
 }
 
@@ -512,10 +514,12 @@ ul li{
     gap: 0 0.5rem;
 }
 
-ul li *{
-    cursor: pointer;
+ul li > *:hover{
     align-self: center;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+    animation: cursor 0.4s linear infinite;
 }
+
 
 ul label{
     display: flex;
@@ -531,9 +535,6 @@ ul label{
 }
 
 /* Checkbox */
-.container {
-  cursor: pointer;
-}
 
 .container input {
   display: none;
@@ -577,7 +578,9 @@ td > div{
   height: 40px;
   border-radius: 50%;
   background-color: rgb(255, 95, 95);
-  cursor: pointer;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+    animation: cursor 0.4s linear infinite;
+
   border: 2px solid rgb(255, 201, 201);
   transition-duration: 0.3s;
   position: relative;
@@ -639,7 +642,9 @@ td > div{
     border-radius: 50%;
     overflow: hidden;
     transition: all 0.2s;
-    cursor: pointer;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+    animation: cursor 0.4s linear infinite;
+
 }
 
 .update svg {
@@ -688,7 +693,9 @@ td > div{
   position: relative;
   width: 10%;
   height: 40px;
-  cursor: pointer;
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+    animation: cursor 0.4s linear infinite;
+
   display: flex;
   align-items: center;
   border: 2px solid var(--main-color);
@@ -840,4 +847,19 @@ input:not(:placeholder-shown) ~ .reset {
   margin-top: 3px;
 }
 
+/* Cursor */
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
+}
 </style>

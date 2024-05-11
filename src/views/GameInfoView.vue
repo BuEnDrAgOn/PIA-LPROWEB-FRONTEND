@@ -304,7 +304,9 @@ article > h2{
   background: white;
   color: #00bd7e;
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
-  cursor: pointer;
+  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  animation: cursor 0.4s linear infinite;
+
 }
 
 #user-score-container .btn::before,
@@ -351,7 +353,9 @@ article > h2{
   height: 100%;
   width: 100%;
   border-radius: var(--border-radius);
-  cursor: pointer;
+  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  animation: cursor 0.4s linear infinite;
+
   position: absolute;
   z-index: 5;
   opacity: 0;
@@ -431,11 +435,29 @@ label {
 label:hover,
 label:hover ~ label {
   color: orange;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  animation: cursor 0.4s linear infinite;
+
 }
 
 input[type="radio"]:checked ~ label {
   color: orange;
+}
+
+/* Cursor Animation*/
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
 }
 
 </style>

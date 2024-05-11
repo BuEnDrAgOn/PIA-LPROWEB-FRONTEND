@@ -11,6 +11,9 @@ body{
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  cursor: url('@/assets/cursors/cursor.cur'), auto;
+  background-color: white;
+  color: black;
 }
 
 body #app {

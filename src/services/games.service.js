@@ -2,7 +2,9 @@ import Api from "@/api/apiURL"
 
 export const gameService = {
     // Create
-
+    createGame: async (params) => {
+        return Api.post(`/games`, params)
+    },
     // Read
     getAllGames: async () => {
         return Api.get('/games')

@@ -91,12 +91,28 @@ export default {
 
 #container div:hover{
   background: #CCF2E5;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  animation: cursor 0.4s linear infinite;
 }
 
 h1 {
   padding-left: 2rem;
   font-style: italic;
   height: 7%;
+}
+
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
 }
 </style>
