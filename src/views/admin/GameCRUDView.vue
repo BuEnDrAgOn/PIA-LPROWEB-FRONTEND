@@ -1,6 +1,10 @@
 <template>
     <h1>CRUD JUEGOS</h1>
     <div class="wrapper">
+         <button class="button" type="button" @click="addGame()">
+            <span class="button__text">Add Game</span>
+            <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+        </button>
         <!-- Search -->
         <form class="form" onsubmit = "return false">
             <button>
@@ -17,9 +21,9 @@
         </form>
 
     </div>
-    <div id="container">
+    <div id="container" ref="container">
         <table>
-            <thead>
+            <thead ref="thead">
                 <tr>
                     <th>Juego</th>
                     <th>Consolas</th>
@@ -29,111 +33,113 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="game in searchList" :key="game">
-                    <td>
-                        <input type="text" :value='game.game_name'>
-                    </td>
-                    <td class="checkbox-dropdown">
-                        <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
-                        <ul :class="{'visible': visibleConsoleLists[game.game_id]}">
-                            <li v-for="consola in consoles" :key="consola">
-                                <label class="container">
-                                    <input type="checkbox" :id="consola.console + game.game_id" @change="handleConsoleChange(game, consola, $event)">
-                                    <svg viewBox="0 0 64 64" height="2em" width="2em">
-                                        <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
-                                    </svg>
-                                </label>
-                                <label :for="consola.console + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{consola.console}}</label>
-                            </li>
-                        </ul>
-                    </td>
-                    <td class="checkbox-dropdown">
-                        <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
-                        <ul :class="{'visible': visibleCategoryLists[game.game_id]}">
-                            <li v-for="category in categories" :key="category">
-                                <label class="container">
-                                    <input type="checkbox" :id="category.category + game.game_id" @change="handleCategoryChange(game, category, $event)">
-                                    <svg viewBox="0 0 64 64" height="2em" width="2em">
-                                        <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
-                                    </svg>
-                                </label>
-                                <label :for="category.category + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{category.category}}</label>
-                            </li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Falta contenido aquí -->
-                    </td>
-                    <td>
-                        <div>
-                            <button class="update" @click="updateGame(game)">
-                                <div class="svg-wrapper-1">
-                                    <div class="svg-wrapper">
+                <TransitionGroup>
+                    <tr v-for="game in searchList" :key="game">
+                        <td>
+                            <input type="text" :value='game.game_name'>
+                        </td>
+                        <td class="checkbox-dropdown">
+                            <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
+                            <ul :class="{'visible': visibleConsoleLists[game.game_id]}">
+                                <li v-for="consola in consoles" :key="consola">
+                                    <label class="container">
+                                        <input type="checkbox" :id="consola.console + game.game_id" @change="handleConsoleChange(game, consola, $event)">
+                                        <svg viewBox="0 0 64 64" height="2em" width="2em">
+                                            <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
+                                        </svg>
+                                    </label>
+                                    <label :for="consola.console + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{consola.console}}</label>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="checkbox-dropdown">
+                            <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
+                            <ul :class="{'visible': visibleCategoryLists[game.game_id]}">
+                                <li v-for="category in categories" :key="category">
+                                    <label class="container">
+                                        <input type="checkbox" :id="category.category + game.game_id" @change="handleCategoryChange(game, category, $event)">
+                                        <svg viewBox="0 0 64 64" height="2em" width="2em">
+                                            <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
+                                        </svg>
+                                    </label>
+                                    <label :for="category.category + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{category.category}}</label>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <!-- Falta contenido aquí -->
+                        </td>
+                        <td>
+                            <div>
+                                <button class="update" @click="updateGame(game)">
+                                    <div class="svg-wrapper-1">
+                                        <div class="svg-wrapper">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                            <path
+                                            fill="currentColor"
+                                            d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                            ></path>
+                                        </svg>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="bin-button" @click="deleteGame(game.game_id)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        viewBox="0 0 39 7"
+                                        class="bin-top"
                                     >
-                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <line stroke-width="4" stroke="white" y2="5" x2="39" y1="5"></line>
+                                        <line
+                                        stroke-width="3"
+                                        stroke="white"
+                                        y2="1.5"
+                                        x2="26.0357"
+                                        y1="1.5"
+                                        x1="12"
+                                        ></line>
+                                    </svg>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 33 39"
+                                        class="bin-bottom"
+                                    >
+                                        <mask fill="white" id="path-1-inside-1_8_19">
                                         <path
-                                        fill="currentColor"
-                                        d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                            d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
+                                        ></path>
+                                        </mask>
+                                        <path
+                                        mask="url(#path-1-inside-1_8_19)"
+                                        fill="white"
+                                        d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+                                        ></path>
+                                        <path stroke-width="4" stroke="white" d="M12 6L12 29"></path>
+                                        <path stroke-width="4" stroke="white" d="M21 6V29"></path>
+                                    </svg>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 89 80"
+                                        class="garbage"
+                                    >
+                                        <path
+                                        fill="white"
+                                        d="M20.5 10.5L37.5 15.5L42.5 11.5L51.5 12.5L68.75 0L72 11.5L79.5 12.5H88.5L87 22L68.75 31.5L75.5066 25L86 26L87 35.5L77.5 48L70.5 49.5L80 50L77.5 71.5L63.5 58.5L53.5 68.5L65.5 70.5L45.5 73L35.5 79.5L28 67L16 63L12 51.5L0 48L16 25L22.5 17L20.5 10.5Z"
                                         ></path>
                                     </svg>
-                                    </div>
-                                </div>
-                            </button>
-
-                            <button class="bin-button" @click="deleteGame(game.game_id)">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 39 7"
-                                    class="bin-top"
-                                >
-                                    <line stroke-width="4" stroke="white" y2="5" x2="39" y1="5"></line>
-                                    <line
-                                    stroke-width="3"
-                                    stroke="white"
-                                    y2="1.5"
-                                    x2="26.0357"
-                                    y1="1.5"
-                                    x1="12"
-                                    ></line>
-                                </svg>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 33 39"
-                                    class="bin-bottom"
-                                >
-                                    <mask fill="white" id="path-1-inside-1_8_19">
-                                    <path
-                                        d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
-                                    ></path>
-                                    </mask>
-                                    <path
-                                    mask="url(#path-1-inside-1_8_19)"
-                                    fill="white"
-                                    d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
-                                    ></path>
-                                    <path stroke-width="4" stroke="white" d="M12 6L12 29"></path>
-                                    <path stroke-width="4" stroke="white" d="M21 6V29"></path>
-                                </svg>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 89 80"
-                                    class="garbage"
-                                >
-                                    <path
-                                    fill="white"
-                                    d="M20.5 10.5L37.5 15.5L42.5 11.5L51.5 12.5L68.75 0L72 11.5L79.5 12.5H88.5L87 22L68.75 31.5L75.5066 25L86 26L87 35.5L77.5 48L70.5 49.5L80 50L77.5 71.5L63.5 58.5L53.5 68.5L65.5 70.5L45.5 73L35.5 79.5L28 67L16 63L12 51.5L0 48L16 25L22.5 17L20.5 10.5Z"
-                                    ></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </TransitionGroup>    
             </tbody>
         </table>
     </div>
@@ -141,6 +147,7 @@
 
 <script>
 import { categoriesService, consoleService, gameService } from '@/services'
+import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
         return{
@@ -178,9 +185,13 @@ export default {
         },
 
         async deleteGame(gameId){
-            await gameService.deleteGame(gameId).then(() =>{
+            if(typeof gameId != 'string'){
+                await gameService.deleteGame(gameId).then(() =>{
+                    this.games = this.games.filter(game => game.game_id !== gameId)
+                })
+            } else{
                 this.games = this.games.filter(game => game.game_id !== gameId)
-            })
+            }
         },
 
         // Console List Display
@@ -232,6 +243,34 @@ export default {
                 }
                 this.lastSelectedGameId = gameId;
             }
+        },
+
+        // Add Game
+        addGame(){
+            const emptyGame = {
+                game_id: uuidv4(),
+                game_name: '',
+                game_banner: null,
+                games_console: [],
+                games_category: []
+            }
+
+            this.games.unshift(emptyGame)
+            this.$refs.container.scrollTo({
+                top: this.$refs.thead.offsetTop,
+                behavior: 'smooth'
+            })
+        },
+
+        createGame(game){
+            const removeGameId = obj => {
+                for (const key in obj) {
+                    if (key === 'game_id') delete obj[key];
+                    else if (typeof obj[key] === 'object') removeGameId(obj[key]);
+                }
+            };
+            
+            removeGameId(game)
         }
     },
 
@@ -268,7 +307,8 @@ export default {
         return this.games
       }
     }
-  }
+  },
+    
 }
 
 </script>
@@ -277,16 +317,16 @@ export default {
 #container{
     display: flex;
     flex-flow: column;
-    align-items: center;
+    align-items: flex-end;
     margin-block-start: 1rem;
-    padding: 3rem 1.5rem;
-    height: 85%;
+    padding: 2rem 1.5rem;
+    height: 80%;
     width: 100%;
     flex-grow: 1;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     border-radius: 10px;
     overflow-y: auto;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 #container::-webkit-scrollbar{
@@ -330,14 +370,33 @@ table{
     width: 100%;
 }
 
+thead{
+    background: black;
+    color: white;
+}
 
 th, td{
     padding: 0.5rem 1rem;
+    border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
 
 th:last-child{
     width: 10%;
+}
+
+tr{
+    border: 1px solid #ccc;
+    transition: all 0.3s;
+}
+
+tr.v-enter-from{
+    transform: translateX(-30%);
+}
+
+tr.v-leave-to{
+    transform: translateX(30%);
+    opacity: 0;
 }
 
 tbody tr:nth-child(odd){
@@ -619,7 +678,71 @@ td > div{
   }
 }
 
+/* Add Item */
+.button {
+  --main-focus: #2d8cf0;
+  --font-color: #323232;
+  --bg-color-sub: #eee;
+  --bg-color: #fff;
+  --main-color: #323232;
+  position: relative;
+  width: 10%;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  background-color: var(--bg-color);
+  border-radius: 5px;
+  margin-right: 2rem;
+  padding: 0;
+}
 
+.button, .button__icon, .button__text {
+  transition: all 0.3s;
+}
+
+.button .button__text {
+  transform: translateX(40%);
+  color: var(--font-color);
+  font-weight: 600;
+}
+
+.button .button__icon {
+  position: absolute;
+  height: 100%;
+  width: 26%;
+  background-color: var(--bg-color-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+}
+
+.button .svg {
+  width: 20px;
+  fill: var(--main-color);
+}
+
+.button:hover {
+  background: var(--bg-color);
+  padding: 0;
+}
+
+.button:hover .button__text {
+  color: transparent;
+}
+
+.button:hover .button__icon {
+    width: 100%;
+    transform: translateX(0);
+}
+
+.button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px var(--main-color);
+}
 
 /* Search */
 /* From uiverse.io by @satyamchaudharydev */
@@ -628,7 +751,10 @@ td > div{
 .wrapper{
     display: flex;
     width: 95%;
+    flex-flow: column-reverse;
     justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
 }
 
 .form button {
