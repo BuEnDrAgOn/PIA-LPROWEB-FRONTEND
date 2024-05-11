@@ -36,7 +36,12 @@
                 <TransitionGroup>
                     <tr v-for="game in searchList" :key="game">
                         <td>
-                            <input type="text" :value='game.game_name' @input="game.game_name = $event.target.value">
+                            <div class="input-container">
+                                <input class="input" name="text" type="text" :value='game.game_name' @input="game.game_name = $event.target.value">
+                                <label class="label" for="input">Game Name</label>
+                                <div class="topline"></div>
+                                <div class="underline"></div>
+                            </div>
                         </td>
                         <td class="checkbox-dropdown">
                             <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
@@ -413,6 +418,78 @@ td{
 tbody tr td > *{
     width: 100%;
     padding: 0.5rem 1rem;
+}
+
+/* Input */
+.input-container {
+  position: relative;
+  padding: 0;
+}
+
+.input-container .input{
+  padding: 1rem;
+  height: 40px;
+  border: 2px solid black;
+  border-top: none;
+  border-bottom: none;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  box-shadow: 7px 7px 0px 0px black;
+  transition: all 0.5s;
+}
+
+.input-container .input:focus {
+  box-shadow: none;
+  transition: all 0.5s;
+}
+
+.input-container .label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: black;
+  transition: all 0.5s;
+  transform: scale(0);
+  z-index: 3;
+}
+
+.input-container .topline {
+  position: absolute;
+  content: "";
+  background-color: black;
+  width: 0%;
+  height: 2px;
+  right: 0;
+  top: 0;
+  transition: all 0.5s;
+}
+
+.input-container input[type="text"]:focus ~ .topline {
+  width: 68%;
+  transition: all 0.5s;
+}
+
+.input-container .underline {
+  position: absolute;
+  content: "";
+  background-color: black;
+  width: 0%;
+  height: 2px;
+  right: 0;
+  bottom: 0;
+  transition: all 0.5s;
+}
+
+.input-container input[type="text"]:focus ~ .underline {
+  width: 100%;
+  transition: all 0.5s;
+}
+
+.input-container input[type="text"]:focus ~ .label {
+  top: -10px;
+  transform: scale(1);
+  transition: all 0.5s;
 }
 
 /* Checkbox-dropdown */
