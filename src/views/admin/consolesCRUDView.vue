@@ -1,8 +1,8 @@
 <template>
     <h1>CRUD JUEGOS</h1>
     <div class="wrapper">
-         <button class="button" type="button" @click="addGame()">
-            <span class="button__text">Add Game</span>
+         <button class="button" type="button" @click="addConsole()">
+            <span class="button__text">Add Console</span>
             <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
         </button>
         <!-- Search -->
@@ -25,10 +25,7 @@
         <table>
             <thead ref="thead">
                 <tr>
-                    <th>Juego</th>
-                    <th>Consolas</th>
-                    <th>Categorías</th>
-                    <th>Banner</th>
+                    <th>Console</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -251,7 +248,7 @@ export default {
         },
 
         // Add Game
-        addGame(){
+        addConsole(){
             const emptyGame = {
                 game_id: uuidv4(),
                 game_name: '',
@@ -273,12 +270,6 @@ export default {
                 const index = this.games.findIndex(obj => obj.game_id === game.game_id);
                 if (index !== -1) {
                     this.games[index].game_id = response.data.game_id;
-                    this.games[index].games_category.forEach(category => {
-                        category.game_id = newGameId;
-                    })
-                    this.games[index].games_console.forEach(console => {
-                        console.game_id = newGameId;
-                    })
                 }
             })
         }
