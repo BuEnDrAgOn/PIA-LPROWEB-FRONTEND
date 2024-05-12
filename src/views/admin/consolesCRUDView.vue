@@ -1,5 +1,5 @@
 <template>
-    <h1>CRUD JUEGOS</h1>
+    <h1>Admin Consoles</h1>
     <div class="wrapper">
          <button class="button" type="button" @click="addConsole()">
             <span class="button__text">Add Console</span>
@@ -12,7 +12,7 @@
                     <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </button>
-            <input class="input" placeholder="Nombre del juego" type="text" v-model="search">
+            <input class="input" placeholder="Console name" type="text" v-model="search">
             <button class="reset" @click="search = ''">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -31,49 +31,18 @@
             </thead>
             <tbody>
                 <TransitionGroup>
-                    <tr v-for="game in searchList" :key="game">
+                    <tr v-for="console in searchList" :key="console">
                         <td>
                             <div class="input-container">
-                                <input class="input" name="text" type="text" :value='game.game_name' @input="game.game_name = $event.target.value">
-                                <label class="label" for="input">Game Name</label>
+                                <input class="input" name="text" type="text" :value='console.console' @input="console.console = $event.target.value">
+                                <label class="label" for="input">Console Name</label>
                                 <div class="topline"></div>
                                 <div class="underline"></div>
                             </div>
                         </td>
-                        <td class="checkbox-dropdown">
-                            <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
-                            <ul :class="{'visible': visibleConsoleLists[game.game_id]}">
-                                <li v-for="consola in consoles" :key="consola">
-                                    <label class="container">
-                                        <input type="checkbox" :id="consola.console + game.game_id" @change="handleConsoleChange(game, consola, $event)">
-                                        <svg viewBox="0 0 64 64" height="2em" width="2em">
-                                            <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
-                                        </svg>
-                                    </label>
-                                    <label :for="consola.console + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{consola.console}}</label>
-                                </li>
-                            </ul>
-                        </td>
-                        <td class="checkbox-dropdown">
-                            <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
-                            <ul :class="{'visible': visibleCategoryLists[game.game_id]}">
-                                <li v-for="category in categories" :key="category">
-                                    <label class="container">
-                                        <input type="checkbox" :id="category.category + game.game_id" @change="handleCategoryChange(game, category, $event)">
-                                        <svg viewBox="0 0 64 64" height="2em" width="2em">
-                                            <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
-                                        </svg>
-                                    </label>
-                                    <label :for="category.category + game.game_id" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">{{category.category}}</label>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <!-- Falta contenido aquí -->
-                        </td>
                         <td>
                             <div>
-                                <button class="update" @click="typeof game.game_id == 'string' ? createGame(game) : updateGame(game)" :style="{'background': typeof game.game_id == 'string' ? '#00BD7E' : null}">
+                                <button class="update" @click="typeof console.console_id == 'string' ? createGame(console) : updateGame(console)" :style="{'background': typeof console.console_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -90,7 +59,7 @@
                                     </div>
                                 </button>
 
-                                <button class="bin-button" @click="deleteGame(game.game_id)">
+                                <button class="bin-button" @click="deleteGame(console.console_id)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -153,159 +122,65 @@ import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
         return{
-            games: null,
             consoles: null,
-            categories: null,
             search: '',
-
-            visibleConsoleLists:{},
-            visibleCategoryLists:{},
-            lastSelectedGameId: null
         }
     },
     methods:{
-        async getGames(){
-            await gameService.getAllGames().then((response) =>{
-                this.games = response.data
-            })
-        },
-        
-        async getCategories(){
-            await categoriesService.getAllCategories().then( response =>{
-                this.categories = response.data
-            })
-        },
-
         async getConsoles(){
             await consoleService.getConsoles().then(response =>{
                 this.consoles = response.data
             })
         },
 
-        async updateGame(game){
-            await gameService.updateGame(game)
+        async updateGame(console){
+            await gameService.updateGame(console)
         },
 
-        async deleteGame(gameId){
-            if(typeof gameId != 'string'){
-                await gameService.deleteGame(gameId).then(() =>{
-                    this.games = this.games.filter(game => game.game_id !== gameId)
+        async deleteGame(consoleId){
+            if(typeof consoleId != 'string'){
+                await gameService.deleteGame(consoleId).then(() =>{
+                    this.consoles = this.consoles.filter(console => console.console_id !== consoleId)
                 })
             } else{
-                this.games = this.games.filter(game => game.game_id !== gameId)
+                this.consoles = this.consoles.filter(console => console.console_id !== consoleId)
             }
         },
 
-        // Console List Display
-
-        handleConsoleChange(game, consola, event){
-            const isChecked = event.target.checked
-            const isConsoleInGame = game.games_console.some(item => item.console_id === consola.console_id);
-            
-            if (isChecked && !isConsoleInGame){
-                game.games_console.push({ game_id: game.game_id, console_id: consola.console_id });
-            } else if(!isChecked && isConsoleInGame){
-                game.games_console = game.games_console.filter(item => item.console_id !== consola.console_id);
-            }
-        },
-
-        toggleConsoleList(gameId){
-            this.visibleConsoleLists[gameId] = !this.visibleConsoleLists[gameId];
-
-            if (this.lastSelectedGameId !== gameId) {
-                if (this.lastSelectedGameId !== null) {
-                    this.visibleConsoleLists[this.lastSelectedGameId] = false;
-                    this.visibleCategoryLists[this.lastSelectedGameId] = false;
-
-                }
-                this.lastSelectedGameId = gameId;
-            }
-        },
-
-        // Category List Display
-
-        handleCategoryChange(game, category, event){
-            const isChecked = event.target.checked
-            const isCategoryInGame = game.games_category.some(item => item.category_id === category.category_id);
-            
-            if (isChecked && !isCategoryInGame){
-                game.games_category.push({ game_id: game.game_id, category_id: category.category_id });
-            } else if(!isChecked && isCategoryInGame){
-                game.games_category = game.games_category.filter(item => item.category_id !== category.category_id);
-            }
-        },
-
-        toggleCategoryList(gameId){
-            this.visibleCategoryLists[gameId] = !this.visibleCategoryLists[gameId];
-
-            if (this.lastSelectedGameId !== gameId) {
-                if (this.lastSelectedGameId !== null) {
-                    this.visibleConsoleLists[this.lastSelectedGameId] = false;
-                    this.visibleCategoryLists[this.lastSelectedGameId] = false;
-                }
-                this.lastSelectedGameId = gameId;
-            }
-        },
-
-        // Add Game
+        // Add console
         addConsole(){
-            const emptyGame = {
-                game_id: uuidv4(),
-                game_name: '',
-                game_banner: null,
-                games_console: [],
-                games_category: []
+            const emptyConsole = {
+                console_id: uuidv4(),
+                console: '',
             }
 
-            this.games.unshift(emptyGame)
+            this.consoles.unshift(emptyConsole)
             this.$refs.container.scrollTo({
                 top: this.$refs.thead.offsetTop,
                 behavior: 'smooth'
             })
-            console.log(this.games)
         },
 
-        createGame(game){
-            gameService.createGame(game).then(response => {
-                const index = this.games.findIndex(obj => obj.game_id === game.game_id);
+        createGame(console){
+            gameService.createGame(console).then(response => {
+                const index = this.consoles.findIndex(obj => obj.console_id === console.console_id);
                 if (index !== -1) {
-                    this.games[index].game_id = response.data.game_id;
+                    this.consoles[index].console_id = response.data.console_id;
                 }
             })
         }
     },
 
     mounted(){
-        Promise.all([this.getCategories(), this.getConsoles(), this.getGames()]).then(() =>{
-            // Iterar sobre los juegos
-            this.games.forEach(game => {
-                // Iterar sobre las consolas
-                this.consoles.forEach(consola => {
-                    // Verificar si la consola está asociada al juego
-                    const isConsoleInGame = game.games_console.some(item => item.console_id === consola.console_id);
-                    // Si la consola está asociada al juego, marcar el checkbo
-                    if (isConsoleInGame) {
-                        document.getElementById(consola.console + game.game_id).checked = true
-                    }
-                })
-
-                this.categories.forEach(category => {
-                    const isCategoryInGame = game.games_category.some(item => item.category_id === category.category_id);
-
-                    if (isCategoryInGame){
-                        document.getElementById(category.category + game.game_id).checked = true
-                    }
-                })
-            })
-        })
+      this.getConsoles()
     },
 
     computed:{
     searchList(){
-      if(this.games !== null){
-        return this.games.filter(game => game.game_name.toLowerCase().includes(this.search.toLowerCase()))
+      if(this.consoles !== null){
+        return this.consoles.filter(console => console.console.toLowerCase().includes(this.search.toLowerCase()))
       }else{
-        return this.games
+        return this.consoles
       }
     }
   },
@@ -369,6 +244,7 @@ table{
     table-layout: fixed;
     border-collapse: collapse;
     width: 100%;
+    min-width: 1450px;
 }
 
 thead{
@@ -488,153 +364,6 @@ tbody tr td > *{
   transform: scale(1);
   transition: all 0.5s;
 }
-
-/* Checkbox-dropdown */
-
-@property --mycolor1 {
-    syntax: '<color>';
-    initial-value: rgb(255, 255, 255);
-    inherits: false;
-}
-
-@property --mycolor2 {
-    syntax: '<color>';
-    initial-value: rgb(204, 242, 229);
-    inherits: false;
-}
-
-.checkbox-dropdown > span{
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: 50%;
-    border-radius: 5px;
-    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
-    box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
-    background: rgb(200, 200, 200);
-    background: linear-gradient(135deg, var(--mycolor1) 40%, var(--mycolor2) 60%);
-    background-size: 150% 100%;
-    animation: cursor 0.4s linear infinite;
-
-    transition: --mycolor1 1s, --mycolor2 1s, background-position 0.3s, box-shadow 0.3s, border-color 0.3s, color 0.3s;
-}
-
-.checkbox-dropdown > span:hover{
-    background-position: 50%;
-    --mycolor1: rgb(204, 242, 229);
-    --mycolor2: rgb(204, 242, 229);
-    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
-    animation: cursor 0.4s linear infinite;
-
-    border-color: white;
-}
-
-.checkbox-dropdown > span.active{
-    --mycolor1: #00bd7e;
-    --mycolor2: #00bd7e;
-    color: white;
-}
-
-/* Dropdown checkbox */
-tr > td > ul{
-    display: flex;
-    flex-flow: column;
-    gap: 1rem;
-    position: absolute;
-    visibility: hidden;
-    list-style: none;
-    background: white;
-    padding: 0;
-    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
-    border-radius: 5px;
-    padding: 1rem;
-    max-height: 200px;
-    max-width: 150px;
-    overflow-x: auto;
-    overflow-y: auto;
-
-    opacity: 0;
-    transition: all 0.3s;
-    transform: translate(-50%, -20%);
-    left: 50%;
-    z-index: 1;
-}
-
-ul::-webkit-scrollbar{
-    position: absolute;
-    right: 0;
-    width: 7px;
-    background-color: #f1f1f1;
-    border-radius: 20px;
-}
-
-ul::-webkit-scrollbar-thumb{
-    background: #d1d1d1;
-    border-radius: 20px;
-    box-shadow: 1px 1px 1px #333;
-}
-
-ul::-webkit-scrollbar-thumb:hover{
-    background: #b2b2b2;
-}
-
-ul::-webkit-scrollbar-thumb:active{
-    box-shadow: inset 0 2px 5px 1px rgba(64,60,67,.8);
-}
-
-ul li{
-    display: flex;
-    align-items: center;
-    gap: 0 0.5rem;
-}
-
-ul li > *:hover{
-    align-self: center;
-    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
-    animation: cursor 0.4s linear infinite;
-}
-
-
-ul label{
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    height: 20px;
-}
-
-.checkbox-dropdown ul.visible{
-    visibility: visible;
-    transform: translate(-50%, 0);
-    opacity: 1;
-}
-
-/* Checkbox */
-
-.container input {
-  display: none;
-}
-
-.container svg {
-  overflow: visible;
-  height: 1rem;
-}
-
-.path {
-  fill: none;
-  stroke: black;
-  stroke-width: 6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
-  stroke-dasharray: 241 9999999;
-  stroke-dashoffset: 0;
-}
-
-.container input:checked ~ svg .path {
-  stroke-dasharray: 70.5096664428711 9999999;
-  stroke-dashoffset: -262.2723388671875;
-}
-
 
 /* Action buttons */
 td > div{
@@ -785,7 +514,7 @@ td > div{
 }
 
 .button .button__text {
-  transform: translateX(40%);
+  transform: translateX(20%);
   color: var(--font-color);
   font-weight: 600;
 }

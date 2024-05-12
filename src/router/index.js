@@ -4,6 +4,7 @@ import CategoriesView from '../views/CategoriesView.vue'
 import GamesView from '../views/GamesView.vue'
 import GameInfoView from '../views/GameInfoView.vue'
 import GameCRUDView from '../views/admin/GameCRUDView.vue'
+import consolesCRUD from '../views/admin/ConsolesCRUDView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,11 @@ const router = createRouter({
       path:"/admin/games",
       name: "gameCRUD",
       component: GameCRUDView
+    },
+    {
+      path: "/admin/consoles",
+      name: "consolesCRUD",
+      component: consolesCRUD
     }
     // {
     //   path: '/about',

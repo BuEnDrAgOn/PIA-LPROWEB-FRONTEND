@@ -7,6 +7,7 @@ import CategoriesViewVue from './views/CategoriesView.vue';
 import GamesViewVue from './views/GamesView.vue';
 import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
+import ConsolesCRUDViewVue from './views/admin/ConsolesCRUDView.vue';
 
 const displayNavChecked = ref(true);
 const consoles = ref([])
@@ -56,7 +57,13 @@ onMounted(() =>{
       </ul>
 
       <ul>
-        <NavList link="/admin/games" page="Administrador"/>
+        <li class="list-dropdown">
+          Administrador
+         <ul  class="dropdown">
+            <NavList link="/admin/games" page="Games"/>
+            <NavList link="/admin/consoles" page="Consoles"/>
+          </ul>
+        </li>
         <NavList link="/" page="Preguntas Frecuentes"/>
         <NavList link="/" page="Cerrar Sesión"/>
         <NavList link="/" page="Haz tu pregunta"/>

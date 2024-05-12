@@ -37,6 +37,8 @@ a,
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
+    cursor: url('@/assets/cursors/cursor.cur'), auto;
+    animation: cursor 0.4s linear infinite;
   }
 }
 
@@ -44,5 +46,20 @@ a,
   body {
     display: flex;
     /* place-items: center; */
+  }
+}
+
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
   }
 }

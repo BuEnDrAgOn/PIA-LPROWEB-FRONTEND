@@ -1,5 +1,5 @@
 <template>
-    <h1>CRUD JUEGOS</h1>
+    <h1>Admin Games</h1>
     <div class="wrapper">
          <button class="button" type="button" @click="addGame()">
             <span class="button__text">Add Game</span>
@@ -326,7 +326,7 @@ export default {
 <style scoped>
 #container{
     display: flex;
-    flex-flow: column;
+    flex-flow: wrap column;
     align-items: flex-end;
     margin-block-start: 1rem;
     padding: 2rem 1.5rem;
@@ -378,6 +378,7 @@ table{
     table-layout: fixed;
     border-collapse: collapse;
     width: 100%;
+    min-width: 1450px;
 }
 
 thead{
