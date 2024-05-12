@@ -1,8 +1,8 @@
 <template>
-    <h1>Admin Consoles</h1>
+    <h1>Admin Category</h1>
     <div class="wrapper">
-         <button class="button" type="button" @click="addConsole()">
-            <span class="button__text">Add consoles</span>
+         <button class="button" type="button" @click="addCategory()">
+            <span class="button__text">Add category</span>
             <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
         </button>
         <!-- Search -->
@@ -12,7 +12,7 @@
                     <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </button>
-            <input class="input" placeholder="Consoles name" type="text" v-model="search">
+            <input class="input" placeholder="category name" type="text" v-model="search">
             <button class="reset" @click="search = ''">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -25,24 +25,24 @@
         <table>
             <thead ref="thead">
                 <tr>
-                    <th>Consoles</th>
+                    <th>category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <TransitionGroup>
-                    <tr v-for="consoles in searchList" :key="consoles">
+                    <tr v-for="category in searchList" :key="category">
                         <td>
                             <div class="input-container">
-                                <input class="input" name="text" type="text" :value='consoles.console' @input="consoles.console = $event.target.value">
-                                <label class="label" for="input">Consoles Name</label>
+                                <input class="input" name="text" type="text" :value='category.category' @input="category.category = $event.target.value">
+                                <label class="label" for="input">category Name</label>
                                 <div class="topline"></div>
                                 <div class="underline"></div>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <button class="update" @click="typeof consoles.console_id == 'string' ? createConsole(consoles) : updateConsole(consoles)" :style="{'background': typeof consoles.console_id == 'string' ? '#00BD7E' : null}">
+                                <button class="update" @click="typeof category.category_id == 'string' ? createCategory(category) : updateCategory(category)" :style="{'background': typeof category.category_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -59,7 +59,7 @@
                                     </div>
                                 </button>
 
-                                <button class="bin-button" @click="deleteConsole(consoles.console_id)">
+                                <button class="bin-button" @click="deleteCategory(category.category_id)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -117,71 +117,70 @@
 </template>
 
 <script>
-import { consoleService } from '@/services'
+import { categoriesService } from '@/services'
 import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
         return{
-            consoles: null,
+            category: null,
             search: '',
         }
     },
     methods:{
-        async getConsoles(){
-          await consoleService.getConsoles().then(response =>{
-              this.consoles = response.data
+        async getCategory(){
+          await categoriesService.getAllCategories().then(response =>{
+              this.category = response.data
           })
         },
 
-        async updateConsole(consoles){
-          console.log(consoles)
-          await consoleService.updateConsole(consoles)
+        async updateCategory(category){
+          await categoriesService.updateCategory(category)
         },
 
-        async deleteConsole(consoleId){
-          if(typeof consoleId != 'string'){
-              await consoleService.deleteConsole(consoleId).then(() =>{
-                  this.consoles = this.consoles.filter(consoles => consoles.console_id !== consoleId)
+        async deleteCategory(categoryId){
+          if(typeof categoryId != 'string'){
+              await categoriesService.deleteCategory(categoryId).then(() =>{
+                  this.category = this.category.filter(category => category.category_id !== categoryId)
               })
           } else{
-              this.consoles = this.consoles.filter(consoles => consoles.console_id !== consoleId)
+              this.category = this.category.filter(category => category.category_id !== categoryId)
           }
         },
 
-        // Add consoles
-        addConsole(){
-            const emptyConsole = {
-                console_id: uuidv4(),
-                console: '',
+        // Add category
+        addCategory(){
+            const emptyCategory = {
+                category_id: uuidv4(),
+                category: '',
             }
 
-            this.consoles.unshift(emptyConsole)
+            this.category.unshift(emptyCategory)
             this.$refs.container.scrollTo({
                 top: this.$refs.thead.offsetTop,
                 behavior: 'smooth'
             })
         },
 
-        createConsole(consoles){
-            consoleService.createConsole(consoles).then(response => {
-                const index = this.consoles.findIndex(obj => obj.console_id === consoles.console_id);
+        createCategory(category){
+            categoriesService.createCategory(category).then(response => {
+                const index = this.category.findIndex(obj => obj.category_id === category.category_id);
                 if (index !== -1) {
-                  this.consoles[index].console_id = response.data.console_id;
+                  this.category[index].category_id = response.data.category_id;
                 }
             })
         }
     },
 
     mounted(){
-      this.getConsoles()
+      this.getCategory()
     },
 
     computed:{
     searchList(){
-      if(this.consoles !== null){
-        return this.consoles.filter(consoles => consoles.console.toLowerCase().includes(this.search.toLowerCase()))
+      if(this.category !== null){
+        return this.category.filter(category => category.category.toLowerCase().includes(this.search.toLowerCase()))
       }else{
-        return this.consoles
+        return this.category
       }
     }
   },
