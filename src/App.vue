@@ -144,15 +144,16 @@ ul li:first-of-type{
 
 /* Dropdown list */
 ul.dropdown{
+  flex-flow: column;
   position: fixed;
   border: 1px solid #d8d8d8;
-  border-radius: 0 1rem 1rem 0;
   background: white;
   animation-name: slideOutDown;
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(1,-1.16,.59,.72);
   visibility: hidden;
   left: 15%;
+  max-height: 500px;
 }
 li.list-dropdown{
   transition: all 0.5s;
@@ -163,7 +164,7 @@ li.list-dropdown:hover{
 li.list-dropdown:hover > ul.dropdown{
   display: flex;
   position: fixed;
-  flex-flow: wrap column;
+  flex-flow: column;
   left: 15%;
   margin-top: -2rem;
   animation-name: slideInDown;
@@ -171,6 +172,7 @@ li.list-dropdown:hover > ul.dropdown{
   animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(.13,1.1,.69,1.55);
   visibility: visible;
+  overflow: auto;
 }
 
 li.list-dropdown{

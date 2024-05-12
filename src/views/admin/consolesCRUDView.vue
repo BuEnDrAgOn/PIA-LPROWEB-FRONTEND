@@ -2,7 +2,7 @@
     <h1>Admin Consoles</h1>
     <div class="wrapper">
          <button class="button" type="button" @click="addConsole()">
-            <span class="button__text">Add Console</span>
+            <span class="button__text">Add consoles</span>
             <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
         </button>
         <!-- Search -->
@@ -12,7 +12,7 @@
                     <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </button>
-            <input class="input" placeholder="Console name" type="text" v-model="search">
+            <input class="input" placeholder="Consoles name" type="text" v-model="search">
             <button class="reset" @click="search = ''">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -25,24 +25,24 @@
         <table>
             <thead ref="thead">
                 <tr>
-                    <th>Console</th>
+                    <th>Consoles</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <TransitionGroup>
-                    <tr v-for="console in searchList" :key="console">
+                    <tr v-for="consoles in searchList" :key="consoles">
                         <td>
                             <div class="input-container">
-                                <input class="input" name="text" type="text" :value='console.console' @input="console.console = $event.target.value">
-                                <label class="label" for="input">Console Name</label>
+                                <input class="input" name="text" type="text" :value='consoles.console' @input="consoles.console = $event.target.value">
+                                <label class="label" for="input">Consoles Name</label>
                                 <div class="topline"></div>
                                 <div class="underline"></div>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <button class="update" @click="typeof console.console_id == 'string' ? createGame(console) : updateGame(console)" :style="{'background': typeof console.console_id == 'string' ? '#00BD7E' : null}">
+                                <button class="update" @click="typeof consoles.console_id == 'string' ? createConsole(consoles) : updateConsole(consoles)" :style="{'background': typeof consoles.console_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -59,7 +59,7 @@
                                     </div>
                                 </button>
 
-                                <button class="bin-button" @click="deleteGame(console.console_id)">
+                                <button class="bin-button" @click="deleteGame(consoles.console_id)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { categoriesService, consoleService, gameService } from '@/services'
+import { consoleService } from '@/services'
 import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
@@ -128,26 +128,27 @@ export default {
     },
     methods:{
         async getConsoles(){
-            await consoleService.getConsoles().then(response =>{
-                this.consoles = response.data
-            })
+          await consoleService.getConsoles().then(response =>{
+              this.consoles = response.data
+          })
         },
 
-        async updateGame(console){
-            await gameService.updateGame(console)
+        async updateConsole(consoles){
+          console.log(consoles)
+          await consoleService.updateConsole(consoles)
         },
 
         async deleteGame(consoleId){
-            if(typeof consoleId != 'string'){
-                await gameService.deleteGame(consoleId).then(() =>{
-                    this.consoles = this.consoles.filter(console => console.console_id !== consoleId)
-                })
-            } else{
-                this.consoles = this.consoles.filter(console => console.console_id !== consoleId)
-            }
+          if(typeof consoleId != 'string'){
+              await consoleService.deleteConsole(consoleId).then(() =>{
+                  this.consoles = this.consoles.filter(consoles => consoles.console_id !== consoleId)
+              })
+          } else{
+              this.consoles = this.consoles.filter(consoles => consoles.console_id !== consoleId)
+          }
         },
 
-        // Add console
+        // Add consoles
         addConsole(){
             const emptyConsole = {
                 console_id: uuidv4(),
@@ -161,11 +162,11 @@ export default {
             })
         },
 
-        createGame(console){
-            gameService.createGame(console).then(response => {
-                const index = this.consoles.findIndex(obj => obj.console_id === console.console_id);
+        createConsole(consoles){
+            consoleService.createConsole(consoles).then(response => {
+                const index = this.consoles.findIndex(obj => obj.console_id === consoles.console_id);
                 if (index !== -1) {
-                    this.consoles[index].console_id = response.data.console_id;
+                  this.consoles[index].console_id = response.data.console_id;
                 }
             })
         }
@@ -178,7 +179,7 @@ export default {
     computed:{
     searchList(){
       if(this.consoles !== null){
-        return this.consoles.filter(console => console.console.toLowerCase().includes(this.search.toLowerCase()))
+        return this.consoles.filter(consoles => consoles.console.toLowerCase().includes(this.search.toLowerCase()))
       }else{
         return this.consoles
       }
@@ -192,7 +193,7 @@ export default {
 <style scoped>
 #container{
     display: flex;
-    flex-flow: column;
+    flex-flow: wrap column;
     align-items: flex-end;
     margin-block-start: 1rem;
     padding: 2rem 1.5rem;

@@ -39,12 +39,5 @@ ul.dropdown li:last-of-type{
     border: 0px;
 }
 
-ul.dropdown li:first-of-type a{
-  border-radius: 0 1rem 0 0;
-}
-
-ul.dropdown li:last-of-type a{
-  border-radius: 0 0 1rem 0 ;
-}
 
 </style>
