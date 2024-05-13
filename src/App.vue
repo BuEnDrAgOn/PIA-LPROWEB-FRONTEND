@@ -59,7 +59,7 @@ onMounted(() =>{
       </ul>
 
       <ul>
-        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true">
+        <li class="list-dropdown">
           Administrador 
          <ul  class="dropdown">
             <NavList link="/admin/games" page="Games"/>
@@ -76,7 +76,7 @@ onMounted(() =>{
   </aside>
 
   <main>
-    <RouterView/>
+    <RouterView @open-modal="$refs.sesionComponent.visible = true"/>
   </main>
 
   <SesionComponentVue ref="sesionComponent"/>
