@@ -25,7 +25,7 @@
         <table>
             <thead ref="thead">
                 <tr>
-                    <th>category</th>
+                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,7 +35,7 @@
                         <td>
                             <div class="input-container">
                                 <input class="input" name="text" type="text" :value='category.category' @input="category.category = $event.target.value">
-                                <label class="label" for="input">category Name</label>
+                                <label class="label" for="input">Category Name</label>
                                 <div class="topline"></div>
                                 <div class="underline"></div>
                             </div>

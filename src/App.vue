@@ -9,6 +9,7 @@ import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
 import ConsolesCRUDViewVue from './views/admin/ConsolesCRUDView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
+import SesionComponentVue from './components/SesionComponent.vue';
 
 const displayNavChecked = ref(true);
 const consoles = ref([])
@@ -25,7 +26,7 @@ onMounted(() =>{
       consoles.value = response.data
     })
   })
-  
+
 })
 </script>
 
@@ -58,8 +59,8 @@ onMounted(() =>{
       </ul>
 
       <ul>
-        <li class="list-dropdown">
-          Administrador
+        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true">
+          Administrador 
          <ul  class="dropdown">
             <NavList link="/admin/games" page="Games"/>
             <NavList link="/admin/consoles" page="Consoles"/>
@@ -78,6 +79,8 @@ onMounted(() =>{
     <RouterView/>
   </main>
 
+  <SesionComponentVue ref="sesionComponent"/>
+
 </template>
 
 <style scoped>
@@ -92,6 +95,7 @@ onMounted(() =>{
   height: 15%;
   background-color: gray;
   z-index: 2;
+  background: url(@/assets/img/header.png);
 }
 
 /* Main */
@@ -127,6 +131,7 @@ nav{
   flex-flow: wrap column;
   justify-content: space-between;
   width: 100%;
+  background: black;
 }
 ul{
   display: flex;
@@ -138,6 +143,7 @@ ul li{
   list-style: none;
   border-bottom: 1px solid #d8d8d8;
   flex-grow: 1;
+  background: white;
 }
 
 ul li:first-of-type{
