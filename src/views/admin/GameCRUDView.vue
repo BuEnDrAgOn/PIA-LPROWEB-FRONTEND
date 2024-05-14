@@ -265,8 +265,6 @@ export default {
                 top: this.$refs.thead.offsetTop,
                 behavior: 'smooth'
             })
-
-            this.$emit('openModal')
         },
 
         createGame(game){

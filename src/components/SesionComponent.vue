@@ -9,18 +9,18 @@
                 <div class="flip-card__inner">
                     <div class="flip-card__front">
                         <div class="title">Log in</div>
-                        <form class="flip-card__form" action="">
-                            <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                            <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                        <form class="flip-card__form" action="" @submit.prevent>
+                            <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
+                            <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
                             <button class="flip-card__btn">Let`s go!</button>
                         </form>
                     </div>
                     <div class="flip-card__back">
                         <div class="title">Sign up</div>
-                        <form class="flip-card__form" action="">
-                            <input class="flip-card__input" placeholder="Name" type="name">
-                            <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                            <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                        <form class="flip-card__form" action="" @submit.prevent>
+                            <input class="flip-card__input" placeholder="Name" type="name" v-model="user.user_name">
+                            <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
+                            <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
                             <button class="flip-card__btn">Confirm!</button>
                         </form>
                     </div>
@@ -35,7 +35,12 @@
 export default {
     data(){
         return {
-            visible: false
+            visible: false,
+            user:{
+              user_name: null,
+              user_email: null,
+              user_password: null,
+            }
         }
     }
 
@@ -43,6 +48,10 @@ export default {
 </script>
 
 <style scoped>
+*{
+   cursor: url('@/assets/cursors/cursor.cur'), auto;
+}
+
 #container-sesion{
     display: flex;
     position: absolute;
@@ -114,6 +123,11 @@ export default {
   
 }
 
+.card-side:hover::after, .card-side:hover::before{
+    cursor: url('@/assets/cursors/cursor.cur'), auto;
+    animation: cursor 0.4s linear infinite;
+}
+
 .toggle {
   opacity: 0;
   width: 0;
@@ -126,7 +140,8 @@ export default {
   border: 2px solid var(--main-color);
   box-shadow: 4px 4px var(--main-color);
   position: absolute;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/cursor.cur'), auto;
+  animation: cursor 0.4s linear infinite;
   top: 0;
   left: 0;
   right: 0;
@@ -269,7 +284,26 @@ export default {
   font-size: 17px;
   font-weight: 600;
   color: var(--font-color);
-  cursor: pointer;
 } 
 
+.flip-card__btn:hover{
+    cursor: url('@/assets/cursors/cursor.cur'), auto;
+    animation: cursor 0.4s linear infinite;
+}
+
+
+@keyframes cursor {
+  0%{
+    cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  }
+  33.33%{
+    cursor: url('@/assets/cursors/frames/frame2.gif'), auto;
+  }
+  66.66%{
+    cursor: url('@/assets/cursors/frames/frame3.gif'), auto;
+  }
+  100%{
+    cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
+}
 </style>
