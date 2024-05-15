@@ -46,7 +46,7 @@
         <section id="content">
           <article>
             <h2>Sinópsis</h2>
-            <textarea class="synopsis-text" v-if="admin" :rows="synopsisRows" cols="165" v-model="game.games_info.game_sinopsis" @keydown="restartFeatures('general', $event)"/>
+            <textarea class="synopsis-text" v-if="admin" :rows="synopsisRows" cols="165" v-model="game.games_info.game_sinopsis" @keydown="restartFeatures('sinopsis', $event)"/>
             {{!admin ? game.games_info.game_sinopsis : ''}}
           </article>
 
@@ -134,10 +134,10 @@ export default {
               this.game.games_info.game_features_general = JSON.parse(JSON.stringify(this.games_info_backup.game_features_general))
             }
             if(feature === "specific"){
-              this.game.games_info.game_features_specific = this.games_info_backup.game_features_specific
+              this.game.games_info.game_features_specific = JSON.parse(JSON.stringify(this.games_info_backup.game_features_specific))
             }
             if(feature === "sinopsis"){
-              this.game.games_info.game_sinopsis = this.games_info_backup.game_sinopsis
+              this.game.games_info.game_sinopsis = JSON.parse(JSON.stringify(this.games_info_backup.game_sinopsis))
             }
           }
         }
