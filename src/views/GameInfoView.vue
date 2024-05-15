@@ -46,9 +46,7 @@
         <section id="content">
           <article>
             <h2>Sinópsis</h2>
-            <p v-if="game.gameInfo">
-              {{game.gameInfo.game_sinopsis}}
-            </p>
+            <textarea class="synopsis-text" :rows="synopsisRows" cols="165" v-model="synopsis"/>
           </article>
 
           <article>
@@ -83,7 +81,8 @@ export default {
                 gameConsoles: [],
                 gameCategories: []
             },
-            starsWidth: '0px'
+            starsWidth: '0px',
+            synopsis: "",
         }
     },
     methods:{
@@ -122,6 +121,12 @@ export default {
         })
 
     },
+
+    computed: {
+      synopsisRows() {
+        return ((this.synopsis.length / 165) + 3) 
+      }
+    }
 }
 
 </script>
@@ -192,6 +197,11 @@ h1 + ul{
 /* GameScore */
 #gameScore h2{
     font-size: 1.8rem;
+}
+
+.synopsis-text {
+  resize: none;
+  margin-left: 2rem;
 }
 
 .score {
