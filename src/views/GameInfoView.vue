@@ -46,7 +46,7 @@
         <section id="content">
           <article>
             <h2>Sinópsis</h2>
-            <textarea class="synopsis-text" v-if="admin" :rows="synopsisRows" cols="165" v-model="game.games_info.game_sinopsis"/>
+            <textarea class="synopsis-text" v-if="admin" :rows="synopsisRows" cols="165" v-model="game.games_info.game_sinopsis" @keydown="restartFeatures('general', $event)"/>
             {{!admin ? game.games_info.game_sinopsis : ''}}
           </article>
 
@@ -54,7 +54,7 @@
             <h2>Características Generales</h2>
               <ul class="features row" v-if="game.games_info">
                   <li v-for="(gameF, index) in game.games_info.game_features_general" :key="gameF" lang="de">
-                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_general[index] = $event.target.value" @keydown.enter="game.games_info.game_features_general.push('')">
+                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_general[index] = $event.target.value" @keydown.enter="game.games_info.game_features_general.push(''); game.games_info.game_features_general[index] = $event.target.value" @keydown.delete="$event.target.value.length == 0 && game.games_info.game_features_general.length > 1 ? game.games_info.game_features_general.splice(index, 1) : null" @keydown="restartFeatures('general', $event)">
                     {{!admin ? gameF : ''}}
                   </li>  
               </ul>
@@ -64,8 +64,8 @@
           <article>
             <h2>Carecterísticas Específicas</h2>
               <ul class="features row" v-if="game.games_info">
-                  <li v-for="gameF in game.games_info.game_features_specific" :key="gameF" lang="de">
-                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_specific[index] = $event.target.value" @keydown.enter="game.games_info.game_features_general.push('')">
+                  <li v-for="(gameF, index) in game.games_info.game_features_specific" :key="gameF" lang="de">
+                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_specific[index] = $event.target.value" @keydown.enter="game.games_info.game_features_specific.push(''); game.games_info.game_features_general[index] = $event.target.value" @keydown.delete="$event.target.value.length == 0 && game.games_info.game_features_specific.length > 1? game.games_info.game_features_specific.splice(index, 1) : null" @keydown="restartFeatures('specific', $event)">
                     {{!admin ? gameF : ''}}
                   </li>  
               </ul>
@@ -90,7 +90,8 @@ export default {
             },
             starsWidth: '0px',
             synopsis: "",
-            admin: false
+            admin: true,
+            games_info_backup: ''
         }
     },
     methods:{
@@ -101,8 +102,15 @@ export default {
                 data.games_info.game_features_general = JSON.parse(data.games_info.game_features_general)
                 data.games_info.game_features_specific = JSON.parse(data.games_info.game_features_specific)
                 this.game.games_info = {...data.games_info}
+                this.games_info_backup = JSON.parse(JSON.stringify(data.games_info));
               } else if(this.admin == true) {
                 this.game.games_info = {
+                  game_sinopsis: '',
+                  game_features_general: [''],
+                  game_features_specific: [''],
+                }
+
+                this.games_info_backup = {
                   game_sinopsis: '',
                   game_features_general: [''],
                   game_features_specific: [''],
@@ -118,6 +126,20 @@ export default {
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
             })
+        },
+
+        restartFeatures(feature, event){
+          if(event.ctrlKey && event.shiftKey && event.code === "KeyZ"){
+            if(feature === "general"){
+              this.game.games_info.game_features_general = JSON.parse(JSON.stringify(this.games_info_backup.game_features_general))
+            }
+            if(feature === "specific"){
+              this.game.games_info.game_features_specific = this.games_info_backup.game_features_specific
+            }
+            if(feature === "sinopsis"){
+              this.game.games_info.game_sinopsis = this.games_info_backup.game_sinopsis
+            }
+          }
         }
 
     },
