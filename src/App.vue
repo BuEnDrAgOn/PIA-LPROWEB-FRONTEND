@@ -47,7 +47,7 @@ onMounted(() =>{
     <nav>
       <ul>
         <NavList link="/" page="Inicio"/>
-        <NavList link="/" page="Perfil"/>
+        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true">Perfil</li>
 
         <li class="list-dropdown">
           Consolas
