@@ -46,13 +46,17 @@
         <section id="content">
           <article>
             <h2>Sinópsis</h2>
-            <textarea class="synopsis-text" :rows="synopsisRows" cols="165" v-model="synopsis"/>
+            <textarea class="synopsis-text" v-if="admin" :rows="synopsisRows" cols="165" v-model="game.gameInfo.game_sinopsis"/>
+            {{!admin ? game.gameInfo.game_sinopsis : ''}}
           </article>
 
           <article>
             <h2>Características Generales</h2>
               <ul class="features row" v-if="game.gameInfo">
-                  <li v-for="gameF in game.gameInfo.game_features_general" :key="gameF" lang="de">{{gameF}}</li>  
+                  <li v-for="(gameF, index) in game.gameInfo.game_features_general" :key="gameF" lang="de">
+                    <input type="text" v-if="admin" :value="gameF" @change="game.gameInfo.game_features_general[index] = $event.target.value" @keydown.enter="game.gameInfo.game_features_general.push('')">
+                    {{!admin ? gameF : ''}}
+                  </li>  
               </ul>
            
           </article>
@@ -60,7 +64,10 @@
           <article>
             <h2>Carecterísticas Específicas</h2>
               <ul class="features row" v-if="game.gameInfo">
-                  <li v-for="gameF in game.gameInfo.game_features_specific" :key="gameF" lang="de">{{gameF}}</li>  
+                  <li v-for="gameF in game.gameInfo.game_features_specific" :key="gameF" lang="de">
+                    <input type="text" v-if="admin" :value="gameF" @change="game.gameInfo.game_features_specific[index] = $event.target.value" @keydown.enter="game.gameInfo.game_features_general.push('')">
+                    {{!admin ? gameF : ''}}
+                  </li>  
               </ul>
           </article>
 
@@ -83,27 +90,25 @@ export default {
             },
             starsWidth: '0px',
             synopsis: "",
+            admin: true
         }
     },
     methods:{
         async getGame(game){
             await gameService.getGame({game}).then(res =>{
                 const {data} = res
+                data.games_info.game_features_general = JSON.parse(data.games_info.game_features_general)
+                data.games_info.game_features_specific = JSON.parse(data.games_info.game_features_specific)
                 data.games_console.map(e =>{
                     this.game.gameConsoles.push(e.consoles.console)
                 })
                 data.games_category.map(e =>{
                     this.game.gameCategories.push(e.categories.category)
                 })
-                console.log(data)
                 this.game.gameScore = data.game_score
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
                 this.game.gameInfo = data.games_info
-                if(this.game.gameInfo !== null){
-                  this.game.gameInfo.game_features_general = this.game.gameInfo.game_features_general.split('|')
-                  this.game.gameInfo.game_features_specific = this.game.gameInfo.game_features_specific.split('|')
-                }
             })
         }
 
