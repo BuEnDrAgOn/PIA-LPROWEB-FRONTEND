@@ -21,7 +21,8 @@
         </div>
     </div>
     <div id="user-score-wrapper">
-        <div id="user-score-container">
+        <button class="flip-card__btn" v-if="admin" @click="updateGameInfo()">Actualizar</button>
+        <div id="user-score-container" v-else>
             <!-- <input type="checkbox" /> -->
             <div class="btn">Calificar</div>
             <div class="tooltip">
@@ -88,6 +89,8 @@ export default {
                 gameConsoles: [],
                 gameCategories: []
             },
+
+            gameId: null,
             starsWidth: '0px',
             synopsis: "",
             admin: true,
@@ -125,6 +128,7 @@ export default {
                 this.game.gameScore = data.game_score
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
+                this.gameId = data.game_id
             })
         },
 
@@ -140,9 +144,16 @@ export default {
               this.game.games_info.game_sinopsis = JSON.parse(JSON.stringify(this.games_info_backup.game_sinopsis))
             }
           }
-        }
+        },
 
+        updateGameInfo(){
+          let gamesInfo = JSON.parse(JSON.stringify(this.game.games_info))
+          gamesInfo.game_features_general = JSON.stringify(this.game.games_info.game_features_general)
+          gamesInfo.game_features_specific = JSON.stringify(this.game.games_info.game_features_specific)
+          gameService.updateGameInfo({gameId: this.gameId, games_info: gamesInfo})
+        },
     },
+
 
     mounted(){
       this.game.gameName = this.game.gameName.replace(/%20/gm, ' ')
@@ -414,6 +425,30 @@ article > h2{
   top: -90px;
   opacity: 1;
   transition-delay: 0s;
+}
+
+/* Button */
+.flip-card__btn:active, .button-confirm:active {
+  box-shadow: 0px 0px #323232;
+  transform: translate(3px, 3px);
+}
+
+.flip-card__btn {
+  margin: 20px 0 20px 0;
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid #323232;
+  background-color: white;
+  box-shadow: 4px 4px #323232;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+} 
+
+.flip-card__btn:hover{
+    cursor: url('@/assets/cursors/cursor.cur'), auto;
+    animation: cursor 0.4s linear infinite;
 }
 
 @-webkit-keyframes stretch-animation {

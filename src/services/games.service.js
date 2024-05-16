@@ -21,6 +21,10 @@ export const gameService = {
         return Api.patch(`/games/${params.game_id}`, params)
     },
 
+    updateGameInfo: async (params) => {
+        return Api.patch(`/games/info/${params.gameId}`, params.games_info)
+    },
+
     // Delete
     deleteGame: async (params) => {
         return Api.delete(`/games/${params}`)
