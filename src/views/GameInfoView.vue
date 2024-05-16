@@ -201,7 +201,7 @@ h1 + ul{
 
 .synopsis-text {
   resize: none;
-  margin-left: 2rem;
+  padding: 0 1%;
 }
 
 .score {

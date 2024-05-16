@@ -21,6 +21,7 @@
                             <input class="flip-card__input" placeholder="Name" type="name" v-model="user.user_name">
                             <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
                             <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
+                            <input class="flip-card__input" name="confirm_password" placeholder="Confirm Password" type="password" v-model="confirm_password">
                             <button class="flip-card__btn">Confirm!</button>
                         </form>
                     </div>
@@ -40,7 +41,8 @@ export default {
               user_name: null,
               user_email: null,
               user_password: null,
-            }
+            },
+            confirm_password: null,
         }
     }
 
