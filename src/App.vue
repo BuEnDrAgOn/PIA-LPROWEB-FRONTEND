@@ -10,15 +10,24 @@ import GameCRUDView from './views/admin/GameCRUDView.vue'
 import ConsolesCRUDViewVue from './views/admin/ConsolesCRUDView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
+import { jwtDecode } from 'jwt-decode';
 
 const displayNavChecked = ref(true);
-const consoles = ref([])
 const router = useRouter()
 
+const consoles = ref([])
 const consoleCategory = (e) =>{
   const consola = e.target.innerText
   router.push({path: `/categories/${consola}`})
 }
+
+
+const loginUser = (role) =>{
+  if(role){
+    admin.value = true;
+  }
+}
+const admin = ref(false)
 
 onMounted(() =>{
   new Promise((response, reject) =>{
@@ -26,7 +35,13 @@ onMounted(() =>{
       consoles.value = response.data
     })
   })
-
+  
+  if(localStorage.getItem('token')){
+    const payload = jwtDecode(localStorage.getItem('token'))
+    if(payload.roles.role_name === 'admin'){
+      admin.value = true
+    } 
+  }
 })
 </script>
 
@@ -59,7 +74,7 @@ onMounted(() =>{
       </ul>
 
       <ul>
-        <li class="list-dropdown">
+        <li class="list-dropdown" v-if="admin">
           Administrador 
          <ul  class="dropdown">
             <NavList link="/admin/games" page="Games"/>
@@ -79,7 +94,7 @@ onMounted(() =>{
     <RouterView @open-modal="$refs.sesionComponent.visible = true"/>
   </main>
 
-  <SesionComponentVue ref="sesionComponent"/>
+  <SesionComponentVue ref="sesionComponent" @admin="loginUser"/>
 
 </template>
 

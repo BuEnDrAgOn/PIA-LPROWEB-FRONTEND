@@ -1,6 +1,6 @@
 <template>
-    <div id="container-sesion" v-if="visible" @click="visible = false">
-        <div class="wrapper-sesion" @click.stop>
+    <div id="container-sesion" v-if="visible" @mousedown="visible = false">
+        <div class="wrapper-sesion" @mousedown.stop>
             <div class="card-switch">
                 <label class="switch">
                 <input type="checkbox" class="toggle">
@@ -12,7 +12,7 @@
                         <form class="flip-card__form" action="" @submit.prevent>
                             <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
                             <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
-                            <button class="flip-card__btn">Let`s go!</button>
+                            <button class="flip-card__btn" @click="logIn()">Let`s go!</button>
                         </form>
                     </div>
                     <div class="flip-card__back">
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { userService } from '@/services'
+import { jwtDecode } from 'jwt-decode'
 export default {
     data(){
         return {
@@ -44,7 +46,26 @@ export default {
             },
             confirm_password: null,
         }
-    }
+    },
+
+    methods:{
+      logIn(){
+        userService.logIn(this.user).then((res) => {
+          const payload = jwtDecode(res.data);
+          if(payload.roles?.role_name === 'admin'){
+            localStorage.setItem('token', res.data);
+            this.$emit('admin', true)
+            this.visible = false
+          } else{
+            if(payload.roles){
+              localStorage.setItem('token', res.data);
+              this.visible = false              
+            }
+            this.$emit('admin', false)
+          }
+        })
+      }
+    },
 
 }
 </script>

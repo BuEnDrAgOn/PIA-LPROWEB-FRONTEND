@@ -7,6 +7,7 @@ import GameCRUDView from '../views/admin/GameCRUDView.vue'
 import consolesCRUD from '../views/admin/ConsolesCRUDView.vue'
 import categoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
 
+import { jwtDecode } from 'jwt-decode'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -43,17 +44,20 @@ const router = createRouter({
     {
       path:"/admin/games",
       name: "gameCRUD",
-      component: GameCRUDView
+      component: GameCRUDView,
+      meta: {requiresAuth: true}
     },
     {
       path: "/admin/consoles",
       name: "consolesCRUD",
-      component: consolesCRUD
+      component: consolesCRUD,
+      meta: {requiresAuth: true}
     },
     {
       path: "/admin/categories",
       name: "categoriesCRUD",
-      component: categoriesCRUD
+      component: categoriesCRUD,
+      meta: {requiresAuth: true}
     }
     // {
     //   path: '/about',
@@ -64,6 +68,29 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // }
   ]
+})
+
+router.beforeEach((to, from, next) =>{
+  if(to.meta.requiresAuth){
+    const token = localStorage.getItem('token');
+    if(!token){
+      next('/')
+    } else {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.roles.role_name === 'admin'){
+          next()
+        } else{
+          next('/')
+        }
+      } catch(e){
+        console.error('Error al decodificar el token: ', error)
+        next('/')
+      }
+    }
+  }else{
+    next()
+  }
 })
 
 export default router
