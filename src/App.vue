@@ -22,12 +22,22 @@ const consoleCategory = (e) =>{
 }
 
 
+const admin = ref(false)
+const user = ref(false)
+const profile = ref('Perfil')
+
 const loginUser = (role) =>{
   if(role){
     admin.value = true;
   }
 }
-const admin = ref(false)
+
+const logOut = () =>{
+  localStorage.removeItem('token')
+  admin.value = false
+  user.value = false
+
+}
 
 onMounted(() =>{
   new Promise((response, reject) =>{
@@ -40,7 +50,9 @@ onMounted(() =>{
     const payload = jwtDecode(localStorage.getItem('token'))
     if(payload.roles.role_name === 'admin'){
       admin.value = true
-    } 
+    }
+    user.value = true;
+    profile.value = payload.user_name
   }
 })
 </script>
@@ -62,7 +74,8 @@ onMounted(() =>{
     <nav>
       <ul>
         <NavList link="/" page="Inicio"/>
-        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true">Perfil</li>
+        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true" v-if="!user">Inicia Sesión</li>
+        <NavList link="/" :page="profile" v-else/>
 
         <li class="list-dropdown">
           Consolas
@@ -83,7 +96,7 @@ onMounted(() =>{
           </ul>
         </li>
         <NavList link="/" page="Preguntas Frecuentes"/>
-        <NavList link="/" page="Cerrar Sesión"/>
+        <NavList link="/" page="Cerrar Sesión" @click="logOut"/>
         <NavList link="/" page="Haz tu pregunta"/>
       </ul>
 
