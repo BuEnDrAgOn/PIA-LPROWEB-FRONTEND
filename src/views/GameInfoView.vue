@@ -27,24 +27,24 @@
             <div class="btn">Calificar</div>
             <div class="tooltip">
                 <div class="rating">
-                  <input type="radio" id="star-1" name="star-radio" value="star-1">
-                  <label for="star-1">
+                  <input type="radio" id="star-5" name="star-radio" value="star-1" ref="star-5" @click="updateScore(5, $event)">
+                  <label for="star-5">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
                   </label>
-                  <input type="radio" id="star-2" name="star-radio" value="star-1">
-                  <label for="star-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
-                  </label>
-                  <input type="radio" id="star-3" name="star-radio" value="star-1">
-                  <label for="star-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
-                  </label>
-                  <input type="radio" id="star-4" name="star-radio" value="star-1">
+                  <input type="radio" id="star-4" name="star-radio" value="star-1" ref="star-4" @click="updateScore(4, $event)">
                   <label for="star-4">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
                   </label>
-                  <input type="radio" id="star-5" name="star-radio" value="star-1">
-                  <label for="star-5">
+                  <input type="radio" id="star-3" name="star-radio" value="star-1" ref="star-3" @click="updateScore(3, $event)">
+                  <label for="star-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-2" name="star-radio" value="star-1" ref="star-2" @click="updateScore(2, $event)">
+                  <label for="star-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-1" name="star-radio" value="star-1" ref="star-1" @click="updateScore(1, $event)">
+                  <label for="star-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
                   </label>
                 </div>                
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { gameService } from '@/services'
+import { gameService, userService } from '@/services'
 import { jwtDecode } from 'jwt-decode'
 export default {
     data(){
@@ -159,12 +159,39 @@ export default {
           gamesInfo.game_features_specific = JSON.stringify(this.game.games_info.game_features_specific)
           gameService.updateGameInfo({gameId: this.gameId, games_info: gamesInfo})
         },
+
+        async getuserScore(){
+          if(localStorage.getItem('token')){
+            const userId = jwtDecode(localStorage.getItem('token')).user_id
+
+            await userService.userGameRated({userId, gameId: this.gameId}).then((res) =>{
+              const {score} = res.data
+              this.$refs[`star-${score}`].checked = true
+            })
+          }
+        },
+
+        async updateScore(value, event){
+          if(localStorage.getItem('token')){
+            const userId = jwtDecode(localStorage.getItem('token')).user_id
+            if(userId){
+              userService.userUpdateGame({user_id: userId, game_id: this.gameId, score: value})
+            } else{
+              event.preventDefault()
+              this.$emit('openModal')
+            }
+          } else{
+            event.preventDefault()
+            this.$emit('openModal')
+          }
+        }
     },
 
 
     mounted(){
       this.game.gameName = this.game.gameName.replace(/%20/gm, ' ')
         this.getGame(this.game.gameName).then(() => {
+            this.getuserScore()
             const rating = parseFloat(this.game.gameScore)
             const starWidth = (this.$refs.score.offsetWidth - 4*5) / 5.0
             const gaps = Math.floor(rating)

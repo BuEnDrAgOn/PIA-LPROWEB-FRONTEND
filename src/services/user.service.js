@@ -9,5 +9,17 @@ export const userService = {
     // Read
     logIn: async (params) => {
         return Api.post(`/users/read`, params)
+    },
+
+// gameScore
+    // Read
+    userGameRated: async (params) =>{
+        return Api.get(`/users/user_score/?gameId=${params.gameId}&userId=${params.userId}`)
+    },
+
+    // Update
+    userUpdateGame: async (params) =>{
+        console.log(params)
+        return Api.patch(`/users/user_score/`, params)
     }
 }
