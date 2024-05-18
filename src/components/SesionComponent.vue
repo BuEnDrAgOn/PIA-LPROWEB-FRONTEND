@@ -81,18 +81,18 @@ export default {
     methods:{
       logIn(){
         userService.logIn(this.user).then((res) => {
-          const payload = jwtDecode(res.data);
-          if(payload.roles?.role_name === 'admin'){
-            localStorage.setItem('token', res.data);
-            this.$emit('admin', true)
+          if(res.status === 200){
+            const payload = jwtDecode(res.data);
             this.visible = false
-          } else{
-            if(payload.user_email){
-              localStorage.setItem('token', res.data);
-              this.visible = false              
+            localStorage.setItem('token', res.data);
+            if(payload.roles?.role_name === 'admin'){
+              this.$emit('admin', true)
+            } else{
+              this.$emit('admin', false)
             }
-            this.$emit('admin', false)
           }
+        }).catch((e) =>{
+          this.errors.logIn.credentials = 'Credenciales incorrectas'
         })
       },
 

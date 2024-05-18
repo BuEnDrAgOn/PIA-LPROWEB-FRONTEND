@@ -30,6 +30,14 @@ const loginUser = (role) =>{
   if(role){
     admin.value = true;
   }
+  if(localStorage.getItem('token')){
+    const payload = jwtDecode(localStorage.getItem('token'))
+    if(payload.roles.role_name === 'admin'){
+      admin.value = true
+    }
+    user.value = true;
+    profile.value = payload.user_name
+  }
 }
 
 const logOut = () =>{
