@@ -79,6 +79,7 @@
 
 <script>
 import { gameService } from '@/services'
+import { jwtDecode } from 'jwt-decode'
 export default {
     data(){
         return {
@@ -164,6 +165,12 @@ export default {
             this.starsWidth = `${width}px`
         })
 
+        if(localStorage.getItem('token')){
+          const payload = jwtDecode(localStorage.getItem('token'));
+          if(payload.roles.role_name === 'admin'){
+            this.admin = true
+          }
+        }
     },
 
     computed: {
