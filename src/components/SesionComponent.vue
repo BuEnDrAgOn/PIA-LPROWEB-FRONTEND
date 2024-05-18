@@ -80,27 +80,39 @@ export default {
 
     methods:{
       logIn(){
-        userService.logIn(this.user).then((res) => {
-          if(res.status === 200){
-            const payload = jwtDecode(res.data);
-            this.visible = false
-            localStorage.setItem('token', res.data);
-            if(payload.roles?.role_name === 'admin'){
-              this.$emit('admin', true)
-            } else{
-              this.$emit('admin', false)
-            }
+        const regex = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/
+        if(!regex.test(this.user.user_email)){
+            this.errors.logIn.credentials = 'Escriba un email válido'
+        } else if(!this.user.user_password) {
+            this.errors.logIn.credentials = 'Escriba una contraseña'
+          } else{
+              this.errors.signIn.credentials = null
+              userService.logIn(this.user).then((res) => {
+                if(res.status === 200){
+                  const payload = jwtDecode(res.data);
+                  this.visible = false
+                  localStorage.setItem('token', res.data);
+                  if(payload.roles?.role_name === 'admin'){
+                    this.$emit('admin', true)
+                  } else{
+                    this.$emit('admin', false)
+                  }
+                }
+              }).catch((e) =>{
+                this.errors.logIn.credentials = 'Credenciales incorrectas'
+              })
           }
-        }).catch((e) =>{
-          this.errors.logIn.credentials = 'Credenciales incorrectas'
-        })
-      },
+        },
 
       signIn(){
-        this.handleAll()
+        this.handleSignInAll()
         const confirm = !Object.values(this.errors.signIn).some(e => e !== null)
         if(confirm){
-          userService.signIn(this.user)
+          userService.signIn(this.user).catch((error) =>{
+            if(error.response.status === 409){
+              this.errors.signIn.email = 'Correo ya existente'
+            }
+          })
         }
       },
 
@@ -145,7 +157,7 @@ export default {
         }
       },
       
-      handleAll(){
+      handleSignInAll(){
         this.handleEmail()
         this.handleName()
         this.handlePassword()

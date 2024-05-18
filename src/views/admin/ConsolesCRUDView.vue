@@ -134,7 +134,6 @@ export default {
         },
 
         async updateConsole(consoles){
-          console.log(consoles)
           await consoleService.updateConsole(consoles)
         },
 

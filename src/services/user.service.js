@@ -19,7 +19,6 @@ export const userService = {
 
     // Update
     userUpdateGame: async (params) =>{
-        console.log(params)
         return Api.patch(`/users/user_score/`, params)
     }
 }
