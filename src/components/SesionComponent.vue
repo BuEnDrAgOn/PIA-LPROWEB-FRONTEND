@@ -10,19 +10,36 @@
                     <div class="flip-card__front">
                         <div class="title">Log in</div>
                         <form class="flip-card__form" action="" @submit.prevent>
+                            <label class="error" v-if="errors.logIn.credentials != null"> {{errors.logIn.credentials}}</label>
+                          
                             <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
                             <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
                             <button class="flip-card__btn" @click="logIn()">Let`s go!</button>
                         </form>
                     </div>
                     <div class="flip-card__back">
-                        <div class="title">Sign up</div>
+                        <div class="title">Sign in</div>
                         <form class="flip-card__form" action="" @submit.prevent>
-                            <input class="flip-card__input" placeholder="Name" type="name" v-model="user.user_name">
-                            <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email">
-                            <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password">
-                            <input class="flip-card__input" name="confirm_password" placeholder="Confirm Password" type="password" v-model="confirm_password">
-                            <button class="flip-card__btn">Confirm!</button>
+                            <div>
+                              <label class="error" v-if="errors.signIn.name != null"> {{errors.signIn.name}}</label>
+                              <input class="flip-card__input" placeholder="Name" type="name" v-model="user.user_name" @blur="handleName">
+                            </div>
+
+                            <div>
+                              <label class="error" v-if="errors.signIn.email != null"> {{errors.signIn.email}}</label>
+                              <input class="flip-card__input" name="email" placeholder="Email" type="email" v-model="user.user_email" @blur="handleEmail">
+                            </div>
+
+                            <div>
+                              <label class="error" v-if="errors.signIn.password != null"> {{errors.signIn.password}}</label>
+                              <input class="flip-card__input" name="password" placeholder="Password" type="password" v-model="user.user_password" @blur="handlePassword">
+                            </div>
+
+                            <div>
+                              <label class="error" v-if="errors.signIn.confirmPassword != null"> {{errors.signIn.confirmPassword}}</label>
+                              <input class="flip-card__input" name="confirm_password" placeholder="Confirm Password" type="password" v-model="confirm_password" @input="handleConfirmPassword">
+                            </div>
+                            <button class="flip-card__btn" @click="signIn">Confirm!</button>
                         </form>
                     </div>
                 </div>
@@ -45,6 +62,19 @@ export default {
               user_password: null,
             },
             confirm_password: null,
+
+            errors:{
+              signIn:{
+                name: null,
+                password: null,
+                confirmPassword: null,
+                email: null
+              },
+
+              logIn:{
+                credentials: null
+              }
+            },
         }
     },
 
@@ -57,13 +87,69 @@ export default {
             this.$emit('admin', true)
             this.visible = false
           } else{
-            if(payload.roles){
+            if(payload.user_email){
               localStorage.setItem('token', res.data);
               this.visible = false              
             }
             this.$emit('admin', false)
           }
         })
+      },
+
+      signIn(){
+        this.handleAll()
+        const confirm = !Object.values(this.errors.signIn).some(e => e !== null)
+        if(confirm){
+          userService.signIn(this.user)
+        }
+      },
+
+      handleName(){
+        if(!this.user.user_name){
+          this.errors.signIn.name = 'Escriba un nombre'
+        }else{
+          this.errors.signIn.name = null
+        }
+      },
+      
+      handleEmail(){
+        const regex = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/
+        if(!regex.test(this.user.user_email)){
+          this.errors.signIn.email = 'Escriba un email válido'
+        } else {
+          this.errors.signIn.email = null
+        }
+      },
+
+      handlePassword(){
+        if(!this.user.user_password){
+          this.errors.signIn.password = 'Escriba una contraseña'
+        }else{
+          if(this.user.user_password.length < 8){
+            this.errors.signIn.password = 'Escriba una contraseña de 8 dígitos como mínimo'
+          } else {
+            this.errors.signIn.password = null
+          }
+        }
+      },
+
+      handleConfirmPassword(){
+        if(!this.confirm_password){
+          this.errors.signIn.confirmPassword = 'Escriba una contraseña'
+        }else{
+          if(this.confirm_password !== this.user.user_password){
+            this.errors.signIn.confirmPassword = 'Las contraseñas no coinciden'
+          } else {
+            this.errors.signIn.confirmPassword = null
+          }
+        }
+      },
+      
+      handleAll(){
+        this.handleEmail()
+        this.handleName()
+        this.handlePassword()
+        this.handleConfirmPassword()
       }
     },
 
@@ -75,6 +161,17 @@ export default {
    cursor: url('@/assets/cursors/cursor.cur'), auto;
 }
 
+/* Errores */
+.error{
+  position: absolute;
+  top: -1.75rem;
+  left: 0.25rem;
+  /* background: white; */
+  color: rgb(255, 6, 6);
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+  }
+/* Sesion */
 #container-sesion{
     display: flex;
     position: absolute;
@@ -96,6 +193,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 5vh;
 }
 /* switch card */
 .switch {
@@ -254,10 +352,15 @@ export default {
 }
 
 .flip-card__form {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 2rem;
+}
+
+.flip-card__form > div{
+  position: relative;
 }
 
 .title {

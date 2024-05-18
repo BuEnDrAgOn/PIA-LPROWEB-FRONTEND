@@ -93,8 +93,12 @@ export default {
             gameId: null,
             starsWidth: '0px',
             synopsis: "",
-            admin: true,
-            games_info_backup: ''
+            admin: false,
+            games_info_backup:{
+                game_sinopsis: '',
+                game_features_general: [''],
+                game_features_specific: [''],
+            }
         }
     },
     methods:{
@@ -108,12 +112,6 @@ export default {
                 this.games_info_backup = JSON.parse(JSON.stringify(data.games_info));
               } else if(this.admin == true) {
                 this.game.games_info = {
-                  game_sinopsis: '',
-                  game_features_general: [''],
-                  game_features_specific: [''],
-                }
-
-                this.games_info_backup = {
                   game_sinopsis: '',
                   game_features_general: [''],
                   game_features_specific: [''],

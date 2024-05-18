@@ -2,7 +2,7 @@ import Api from "@/api/apiURL"
 
 export const userService = {
     // Create
-    createUser: async (params) => {
+    signIn: async (params) => {
         return Api.post(`/users/`, params)
     },
 
