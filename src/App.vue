@@ -167,7 +167,7 @@ nav{
   flex-flow: wrap column;
   justify-content: space-between;
   width: 100%;
-  background: black;
+  background: #d8d8d8;
 }
 ul{
   display: flex;

@@ -25,6 +25,7 @@
 
     </div>
     <div id="container">
+      <TransitionGroup>
         <div v-for="game in searchList" :key="game" @click="gamePage(game.game_name)">
           <h2>{{game.game_name}}</h2>
           <div class="rating">
@@ -34,6 +35,7 @@
             <span id="arrow"></span>
           </div>
         </div>
+      </TransitionGroup>
     </div>
 </template>
 
@@ -108,6 +110,15 @@ export default {
 </script>
 
 <style scoped>
+.v-enter-from{
+    transform: translateX(-30%);
+}
+
+.v-leave-to{
+    transform: translateX(30%);
+    opacity: 0;
+}
+
 
 #console{
     display: flex;
@@ -167,6 +178,7 @@ export default {
 #container div:hover{
   background: #CCF2E5;
   cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
+  animation: cursor 0.4s linear infinite;
 }
 
 @keyframes cursor {
