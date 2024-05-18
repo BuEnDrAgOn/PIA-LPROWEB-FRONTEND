@@ -26,20 +26,28 @@
             <!-- <input type="checkbox" /> -->
             <div class="btn">Calificar</div>
             <div class="tooltip">
-                <form id="form">
-                    <p class="clasificacion">
-                        <input id="radio1" type="radio" name="estrellas" value="5"><!--
-                        --><label for="radio1">★</label><!--
-                        --><input id="radio2" type="radio" name="estrellas" value="4"><!--
-                        --><label for="radio2">★</label><!--
-                        --><input id="radio3" type="radio" name="estrellas" value="3"><!--
-                        --><label for="radio3">★</label><!--
-                        --><input id="radio4" type="radio" name="estrellas" value="2"><!--
-                        --><label for="radio4">★</label><!--
-                        --><input id="radio5" type="radio" name="estrellas" value="1"><!--
-                        --><label for="radio5">★</label>
-                    </p>
-                </form>
+                <div class="rating">
+                  <input type="radio" id="star-1" name="star-radio" value="star-1">
+                  <label for="star-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-2" name="star-radio" value="star-1">
+                  <label for="star-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-3" name="star-radio" value="star-1">
+                  <label for="star-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-4" name="star-radio" value="star-1">
+                  <label for="star-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                  <input type="radio" id="star-5" name="star-radio" value="star-1">
+                  <label for="star-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+                  </label>
+                </div>                
             </div>
         </div>
     </div>
@@ -416,8 +424,6 @@ article > h2{
   border-radius: var(--border-radius);
   cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
   animation: cursor 0.4s linear infinite;
-
-  position: absolute;
   z-index: 5;
   opacity: 0;
 }
@@ -492,42 +498,91 @@ article > h2{
 }
 
 /* Stars UserScore */
-#form {
-    display: flex;
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 0.5rem;
+  --stroke: #666;
+  --fill: #ffc73a;
 }
 
-#form p {
-  text-align: center;
+.rating input {
+  appearance: unset;
 }
 
-#form label {
-  font-size: 1.5rem;
+.rating label {
+  cursor: pointer;
 }
 
-input[type="radio"] {
-  display: none;
+.rating svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: visible;
+  fill: transparent;
+  stroke: var(--stroke);
+  stroke-linejoin: bevel;
+  stroke-dasharray: 12;
+  animation: idle 4s linear infinite;
+  transition: stroke 0.2s, fill 0.5s;
 }
 
-label {
-  color: grey;
+@keyframes idle {
+  from {
+    stroke-dashoffset: 24;
+  }
 }
 
-.clasificacion {
-  direction: rtl;
-  unicode-bidi: bidi-override;
+.rating label:hover svg {
+  stroke: var(--fill);
 }
 
-label:hover,
-label:hover ~ label {
-  color: orange;
-  cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
-  animation: cursor 0.4s linear infinite;
-
+.rating input:checked ~ label svg {
+  transition: 0s;
+  animation: idle 4s linear infinite, yippee 0.75s backwards;
+  fill: var(--fill);
+  stroke: var(--fill);
+  stroke-opacity: 0;
+  stroke-dasharray: 0;
+  stroke-linejoin: miter;
+  stroke-width: 8px;
 }
 
-input[type="radio"]:checked ~ label {
-  color: orange;
+@keyframes yippee {
+  0% {
+    transform: scale(1);
+    fill: var(--fill);
+    fill-opacity: 0;
+    stroke-opacity: 1;
+    stroke: var(--stroke);
+    stroke-dasharray: 10;
+    stroke-width: 1px;
+    stroke-linejoin: bevel;
+  }
+
+  30% {
+    transform: scale(0);
+    fill: var(--fill);
+    fill-opacity: 0;
+    stroke-opacity: 1;
+    stroke: var(--stroke);
+    stroke-dasharray: 10;
+    stroke-width: 1px;
+    stroke-linejoin: bevel;
+  }
+
+  30.1% {
+    stroke: var(--fill);
+    stroke-dasharray: 0;
+    stroke-linejoin: miter;
+    stroke-width: 8px;
+  }
+
+  60% {
+    transform: scale(1.2);
+    fill: var(--fill);
+  }
 }
+
 
 /* Cursor Animation*/
 @keyframes cursor {
