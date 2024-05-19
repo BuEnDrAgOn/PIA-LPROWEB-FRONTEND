@@ -170,6 +170,8 @@ aside{
   font-family: gamesMenu;
 }
 
+aside 
+
 /* Navbar */
 nav{
   display: flex;
@@ -206,8 +208,28 @@ ul.dropdown{
   animation-timing-function: cubic-bezier(1,-1.16,.59,.72);
   visibility: hidden;
   left: 15%;
-  max-height: 500px;
+  max-height: 268px;
+  text-transform: initial;
 }
+
+ul.dropdown::-webkit-scrollbar {
+  position: absolute;
+  right: 0;
+  width: 10px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+}
+
+ul.dropdown::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border-radius: 20px;
+  box-shadow: 1px 1px 1px #333;
+}
+
+ul.dropdown::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
 li.list-dropdown{
   transition: all 0.5s;
 }
