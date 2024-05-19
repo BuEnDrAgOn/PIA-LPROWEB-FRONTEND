@@ -1,18 +1,25 @@
 import Api from "@/api/apiURL"
 
 export const faqService = {
+
     // Create
-    signIn: async (params) => {
-        return Api.post(`/faq/`, params)
+    createFAQ: async (params) => {
+        return Api.post('/faq', params)
     },
 
     // Read
-    logIn: async (params) => {
-        return Api.post(`/faq/read`, params)
+    getAllFAQ: async () =>{
+        return Api.get('/faq')
     },
 
     // Update
-    userUpdateGame: async (params) =>{
-        return Api.patch(`/faq/user_score/`, params)
+    updateFAQ: async(params) => {
+        return Api.patch(`/faq/${params.faq_id}`, params)
+    },
+
+    // Delete
+    deleteFAQ: async (params) => {
+        return Api.delete(`/faq/${params}`)
     }
+
 }

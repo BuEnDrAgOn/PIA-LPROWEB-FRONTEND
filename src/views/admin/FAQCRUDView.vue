@@ -31,10 +31,10 @@
             </thead>
             <tbody>
                 <TransitionGroup>
-                    <tr v-for="category in searchList" :key="category">
+                    <tr v-for="faq in searchList" :key="faq">
                         <td>
                             <div class="input-container">
-                                <input class="input" name="text" type="text" :value='category.category' @input="category.category = $event.target.value">
+                                <input class="input" name="text" type="text" :value='faq.faq' @input="faq.faq = $event.target.value">
                                 <label class="label" for="input">Category Name</label>
                                 <div class="topline"></div>
                                 <div class="underline"></div>
@@ -42,7 +42,7 @@
                         </td>
                         <td>
                             <div>
-                                <button class="update" @click="typeof category.category_id == 'string' ? createCategory(category) : updateCategory(category)" :style="{'background': typeof category.category_id == 'string' ? '#00BD7E' : null}">
+                                <button class="update" @click="typeof faq.faq_id == 'string' ? createFAQ(faq) : updateCategory(faq)" :style="{'background': typeof faq.faq_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -59,7 +59,7 @@
                                     </div>
                                 </button>
 
-                                <button class="bin-button" @click="deleteCategory(category.category_id)">
+                                <button class="bin-button" @click="deleteFAQ(faq.faq_id)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -117,70 +117,70 @@
 </template>
 
 <script>
-import { categoriesService } from '@/services'
+import { faqService } from '@/services'
 import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
         return{
-            category: null,
+            faq: null,
             search: '',
         }
     },
     methods:{
-        async getCategory(){
-          await categoriesService.getAllCategories().then(response =>{
-              this.category = response.data
+        async getFAQ(){
+          await faqService.getAllFAQ().then(response =>{
+              this.faq = response.data
           })
         },
 
-        async updateCategory(category){
-          await categoriesService.updateCategory(category)
+        async updateCategory(faq){
+          await faqService.updateCategory(faq)
         },
 
-        async deleteCategory(categoryId){
-          if(typeof categoryId != 'string'){
-              await categoriesService.deleteCategory(categoryId).then(() =>{
-                  this.category = this.category.filter(category => category.category_id !== categoryId)
+        async deleteFAQ(faqId){
+          if(typeof faqId != 'string'){
+              await faqService.deleteFAQ(faqId).then(() =>{
+                  this.faq = this.faq.filter(faq => faq.faq_id !== faqId)
               })
           } else{
-              this.category = this.category.filter(category => category.category_id !== categoryId)
+              this.faq = this.faq.filter(faq => faq.faq_id !== faqId)
           }
         },
 
-        // Add category
+        // Add faq
         addCategory(){
-            const emptyCategory = {
-                category_id: uuidv4(),
-                category: '',
+            const emptyFAQ = {
+                faq_id: uuidv4(),
+                faq: '',
             }
 
-            this.category.unshift(emptyCategory)
+            this.faq.unshift(emptyFAQ)
             this.$refs.container.scrollTo({
                 top: this.$refs.thead.offsetTop,
                 behavior: 'smooth'
             })
         },
 
-        createCategory(category){
-            categoriesService.createCategory(category).then(response => {
-                const index = this.category.findIndex(obj => obj.category_id === category.category_id);
+        createFAQ(faq){
+            faqService.createFAQ(faq).then(response => {
+                const index = this.faq.findIndex(obj => obj.faq_id === faq.faq_id);
                 if (index !== -1) {
-                  this.category[index].category_id = response.data.category_id;
+                  this.faq[index].faq_id = response.data.faq_id;
                 }
             })
         }
     },
 
     mounted(){
-      this.getCategory()
+      this.getFAQ()
     },
 
     computed:{
     searchList(){
-      if(this.category !== null){
-        return this.category.filter(category => category.category.toLowerCase().includes(this.search.toLowerCase()))
+      if(this.faq !== null){
+        return this.faq.filter(faq => faq.faq.toLowerCase().includes(this.search.toLowerCase()))
       }else{
-        return this.category
+        return this.faq
       }
     }
   },
