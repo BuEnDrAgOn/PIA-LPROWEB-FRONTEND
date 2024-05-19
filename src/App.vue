@@ -81,12 +81,12 @@ onMounted(() =>{
   <aside id="aside" :style="[displayNavChecked ? {'left': '0'} : {'left': '-30%'}]">
     <nav>
       <ul>
-        <NavList link="/" page="START"/>
-        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true" v-if="!user">Inicia Sesión</li>
+        <NavList link="/" page="Start"/>
+        <li class="list-dropdown" @click="$refs.sesionComponent.visible = true" v-if="!user">Login</li>
         <NavList link="/" :page="profile" v-else/>
 
         <li class="list-dropdown">
-          OPTIONS
+          Consoles
          <ul  class="dropdown">
             <NavList v-for="console in consoles" :key="console" link="/categories" :page="console.console" @click="consoleCategory($event)"/>
           </ul>
@@ -104,8 +104,8 @@ onMounted(() =>{
           </ul>
         </li>
         <NavList link="/" page="FAQ"/>
-        <NavList link="/" page="LOGOUT" @click="logOut"/>
-        <NavList link="/" page="REPORT A QUESTION"/>
+        <NavList link="/" page="Logout" @click="logOut"/>
+        <NavList link="/" page="Report a question"/>
       </ul>
 
     </nav>
@@ -151,6 +151,7 @@ main{
 aside{
   display: flex;
   position: fixed;
+  text-transform: uppercase;
   top: 15%;
   width: 15%;
   background-color: #fff;
