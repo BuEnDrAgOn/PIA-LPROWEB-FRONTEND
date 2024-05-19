@@ -36,7 +36,7 @@ const loginUser = (role) =>{
       admin.value = true
     }
     user.value = true;
-    profile.value = payload.user_name
+    profile.value = payload.user_name.toUpperCase()
   }
 }
 
@@ -81,12 +81,12 @@ onMounted(() =>{
   <aside id="aside" :style="[displayNavChecked ? {'left': '0'} : {'left': '-30%'}]">
     <nav>
       <ul>
-        <NavList link="/" page="Inicio"/>
+        <NavList link="/" page="START"/>
         <li class="list-dropdown" @click="$refs.sesionComponent.visible = true" v-if="!user">Inicia Sesión</li>
         <NavList link="/" :page="profile" v-else/>
 
         <li class="list-dropdown">
-          Consolas
+          OPTIONS
          <ul  class="dropdown">
             <NavList v-for="console in consoles" :key="console" link="/categories" :page="console.console" @click="consoleCategory($event)"/>
           </ul>
@@ -96,16 +96,16 @@ onMounted(() =>{
 
       <ul>
         <li class="list-dropdown" v-if="admin">
-          Administrador 
+          SETTINGS 
          <ul  class="dropdown">
             <NavList link="/admin/games" page="Games"/>
             <NavList link="/admin/consoles" page="Consoles"/>
             <NavList link="/admin/categories" page="Categories"/>
           </ul>
         </li>
-        <NavList link="/" page="Preguntas Frecuentes"/>
-        <NavList link="/" page="Cerrar Sesión" @click="logOut"/>
-        <NavList link="/" page="Haz tu pregunta"/>
+        <NavList link="/" page="FAQ"/>
+        <NavList link="/" page="LOGOUT" @click="logOut"/>
+        <NavList link="/" page="REPORT A QUESTION"/>
       </ul>
 
     </nav>
