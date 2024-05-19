@@ -27,7 +27,7 @@ a{
 /* Inside a dropdown list */
 ul.dropdown li{
   width: 15vw;
-
+  font-family: gamesMenu;
 }
 
 ul.dropdown li:first-of-type{

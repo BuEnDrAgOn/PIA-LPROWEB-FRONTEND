@@ -120,6 +120,11 @@ onMounted(() =>{
 </template>
 
 <style scoped>
+
+@font-face {
+  font-family: gamesMenu;
+  src: url(@/assets/fonts/PixelDigivolveItalic-dV8R.ttf);
+}
 /* Wrapper */
 #wrapper{
   display: flex;
@@ -159,6 +164,7 @@ aside{
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1), 0px 17px 24px rgba(0, 0, 0, 0.07);
   z-index: 2;
   transition: all 0.3s;
+  font-family: gamesMenu;
 }
 
 /* Navbar */
