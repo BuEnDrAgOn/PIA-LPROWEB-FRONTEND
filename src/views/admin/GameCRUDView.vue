@@ -12,7 +12,7 @@
                     <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </button>
-            <input class="input" placeholder="Nombre del juego" type="text" v-model="search">
+            <input class="input" placeholder="Game Name" type="text" v-model="search">
             <button class="reset" @click="search = ''">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -25,9 +25,9 @@
         <table>
             <thead ref="thead">
                 <tr>
-                    <th>Juego</th>
-                    <th>Consolas</th>
-                    <th>Categorías</th>
+                    <th>Game</th>
+                    <th>Conoles</th>
+                    <th>Categories</th>
                     <th>Banner</th>
                     <th>Actions</th>
                 </tr>
@@ -44,7 +44,7 @@
                             </div>
                         </td>
                         <td class="checkbox-dropdown">
-                            <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
+                            <span @click="toggleConsoleList(game.game_id)" :class="{'active': visibleConsoleLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Deploy</span>
                             <ul :class="{'visible': visibleConsoleLists[game.game_id]}">
                                 <li v-for="consola in consoles" :key="consola">
                                     <label class="container">
@@ -58,7 +58,7 @@
                             </ul>
                         </td>
                         <td class="checkbox-dropdown">
-                            <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Desplegar</span>
+                            <span @click="toggleCategoryList(game.game_id)" :class="{'active': visibleCategoryLists[game.game_id]}" @mousedown="$event.detail > 1 ? $event.preventDefault() : none">Deploy</span>
                             <ul :class="{'visible': visibleCategoryLists[game.game_id]}">
                                 <li v-for="category in categories" :key="category">
                                     <label class="container">

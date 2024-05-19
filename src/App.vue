@@ -7,7 +7,8 @@ import CategoriesViewVue from './views/CategoriesView.vue';
 import GamesViewVue from './views/GamesView.vue';
 import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
-import ConsolesCRUDViewVue from './views/admin/ConsolesCRUDView.vue';
+import ConsolesCRUDView from './views/admin/ConsolesCRUDView.vue';
+import FAQCRUDView from './views/admin/FAQCRUDView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
 import { jwtDecode } from 'jwt-decode';
@@ -101,6 +102,7 @@ onMounted(() =>{
             <NavList link="/admin/games" page="Games"/>
             <NavList link="/admin/consoles" page="Consoles"/>
             <NavList link="/admin/categories" page="Categories"/>
+            <NavList link="/admin/faq" page="FAQ"/>
           </ul>
         </li>
         <NavList link="/" page="FAQ"/>

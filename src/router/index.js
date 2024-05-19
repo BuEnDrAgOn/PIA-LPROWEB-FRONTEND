@@ -4,8 +4,9 @@ import CategoriesView from '../views/CategoriesView.vue'
 import GamesView from '../views/GamesView.vue'
 import GameInfoView from '../views/GameInfoView.vue'
 import GameCRUDView from '../views/admin/GameCRUDView.vue'
-import consolesCRUD from '../views/admin/ConsolesCRUDView.vue'
-import categoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
+import ConsolesCRUD from '../views/admin/ConsolesCRUDView.vue'
+import CategoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
+import FAQCRUD from '../views/admin/FAQCRUDView.vue'
 
 import { jwtDecode } from 'jwt-decode'
 const router = createRouter({
@@ -49,16 +50,22 @@ const router = createRouter({
     },
     {
       path: "/admin/consoles",
-      name: "consolesCRUD",
-      component: consolesCRUD,
+      name: "ConsolesCRUD",
+      component: ConsolesCRUD,
       meta: {requiresAuth: true}
     },
     {
       path: "/admin/categories",
-      name: "categoriesCRUD",
-      component: categoriesCRUD,
+      name: "CategoriesCRUD",
+      component: CategoriesCRUD,
       meta: {requiresAuth: true}
-    }
+    },
+    {
+      path: '/admin/faq',
+      name: 'FAQCRUD',
+      components: FAQCRUD,
+      meta: {requiresAuth: true}
+    },
     // {
     //   path: '/about',
     //   name: 'about',
