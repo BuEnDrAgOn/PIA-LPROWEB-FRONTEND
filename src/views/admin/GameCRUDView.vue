@@ -26,9 +26,9 @@
             <thead ref="thead">
                 <tr>
                     <th>Game</th>
-                    <th>Conoles</th>
+                    <th>Consoles</th>
                     <th>Categories</th>
-                    <th>Banner</th>
+                    <th>Image (URL)</th>
                     <th>Actions</th>
                 </tr>
             </thead>

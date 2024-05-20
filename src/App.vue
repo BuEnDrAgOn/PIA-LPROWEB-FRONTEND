@@ -105,7 +105,7 @@ onMounted(() =>{
             <NavList link="/admin/faq" page="FAQ"/>
           </ul>
         </li>
-        <NavList link="/" page="FAQ"/>
+        <NavList link="/faq" page="FAQ"/>
         <NavList link="/" page="Logout" @click="logOut"/>
         <NavList link="/" page="Report a question"/>
       </ul>

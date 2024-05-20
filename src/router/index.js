@@ -61,11 +61,18 @@ const router = createRouter({
       meta: {requiresAuth: true}
     },
     {
-      path: '/admin/faq',
+      path: "/faq",
       name: 'FaqCRUD',
-      component: FaqCRUD,
-      meta: {requiresAuth: true}
+      component: FaqCRUD
     },
+    // {
+    //   path: '/admin/faq',
+    //   name: 'FaqCRUD',
+    //   component: FaqCRUD,
+    //   meta: {requiresAuth: true}
+    // },
+
+    
     // {
     //   path: '/about',
     //   name: 'about',

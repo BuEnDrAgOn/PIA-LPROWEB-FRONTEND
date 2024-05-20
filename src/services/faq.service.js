@@ -14,7 +14,7 @@ export const faqService = {
 
     // Update
     updateFAQ: async(params) => {
-        return Api.patch(`/faq/${params.faq_id}`, params)
+        return Api.patch(`/faq/${params.fqa_id}`, params)
     },
 
     // Delete
