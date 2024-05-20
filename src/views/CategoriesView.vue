@@ -115,4 +115,26 @@ h1 {
     cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
   }
 }
+
+@media (max-width: 600px){
+  #container  div{
+    font-size: 1rem;
+  }
+
+  #container{
+    max-height: 70vh;
+  }
+
+  #arrow{
+    padding: 0.5rem;
+  }
+
+  #console{
+    display: none;
+  }
+
+  div.wrapper{
+    padding: 0;
+  }
+}
 </style>

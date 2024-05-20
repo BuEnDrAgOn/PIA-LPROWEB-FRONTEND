@@ -494,7 +494,7 @@ td > div{
   --bg-color: #fff;
   --main-color: #323232;
   position: relative;
-  width: 10%;
+  width: 155px;
   height: 40px;
     cursor: url('@/assets/cursors/frames/frame1.gif'), auto;
     animation: cursor 0.4s linear infinite;

@@ -144,7 +144,7 @@ onMounted(() =>{
 /* Main */
 main{
   display: flex;
-  flex-flow: wrap column;
+  flex-flow: column;
   position: absolute;
   padding: 1rem;
   right: 0;
@@ -170,7 +170,6 @@ aside{
   font-family: gamesMenu;
 }
 
-aside 
 
 /* Navbar */
 nav{
@@ -310,6 +309,8 @@ li.list-dropdown{
 @media (max-width: 716px){
   .logo{
     position: relative;
+    background-size: 1600px 130px;
+    background-position: 26% 50%;
   }
 
   aside{
@@ -324,10 +325,9 @@ li.list-dropdown{
 
   main{
     display: flex;
-    position: relative;
     min-height: calc(85vh - 3rem - 6px);
     height: initial;
-    top: 0;
+    top: 20%;
     width: 100%;
   }
 

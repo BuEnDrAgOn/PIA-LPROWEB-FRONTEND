@@ -243,7 +243,7 @@ export default {
 
 .wrapper #gameImg{
    width: 250px;
-   flex: 1 1 100%;
+   height: 250px;
 }
 
 .wrapper > div{
@@ -286,9 +286,22 @@ h1 + ul{
 }
 
 .synopsis-text {
+  display: flex;
+  flex-grow: 1;
   resize: none;
   padding: 0 1%;
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  color: #333; 
+  background-color: #f4f4f4; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
+
+.synopsis-text:focus {
+    outline-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
 
 .score {
   margin-bottom: 5px;
@@ -348,6 +361,11 @@ h1 + ul{
   text-align: justify;
   max-width: 30%;
   align-self: flex-start;
+}
+
+article{
+  display: flex;
+  flex-flow: column;
 }
 
 article > h2{
@@ -624,6 +642,34 @@ article > h2{
   }
   100%{
     cursor: url('@/assets/cursors/frames/frame4.gif'), auto;
+  }
+}
+
+@media (max-width:660px){
+  #main{
+    padding: 0;
+  }
+
+  #user-score-container{
+    width: 40%;
+  }
+
+
+  .container{
+    width: 100%;
+  }
+
+  .wrapper{
+    height: auto;
+    flex-wrap: nowrap;
+  }
+
+  .wrapper #gameImg{
+    width: 300px;
+  }
+
+  .wrapper div{
+    padding: 0;
   }
 }
 

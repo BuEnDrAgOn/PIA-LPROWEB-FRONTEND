@@ -186,7 +186,7 @@ export default {
 /* Sesion */
 #container-sesion{
     display: flex;
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100vw;
     z-index: 10;

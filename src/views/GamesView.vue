@@ -142,7 +142,7 @@ export default {
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   border-radius: 10px;
   overflow-y: auto;
-  gap: 3rem;
+  gap: 1.1rem;
 }
 
 #container::-webkit-scrollbar {
@@ -357,5 +357,30 @@ input:not(:placeholder-shown) ~ .reset {
 .form svg {
   width: 17px;
   margin-top: 3px;
+}
+
+@media (max-width: 600px){
+  #container div  *{
+    font-size: 1rem;
+  }
+
+  #container{
+    max-height: 71vh;
+  }
+
+  #arrow{
+    padding: 0.5rem;
+  }
+
+  #console{
+    display: none;
+  }
+
+  div.wrapper{
+    padding: 0;
+  }
+  .form{
+    --width-of-input: 40%;
+  }
 }
 </style>
