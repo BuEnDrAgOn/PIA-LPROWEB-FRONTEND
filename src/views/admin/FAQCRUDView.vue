@@ -42,7 +42,7 @@
                         </td>
                         <td>
                             <div>
-                                <button class="update" @click="typeof faq.faq_id == 'string' ? createFAQ(faq) : updateCategory(faq)" :style="{'background': typeof faq.faq_id == 'string' ? '#00BD7E' : null}">
+                                <button class="update" @click="typeof faq.faq_id == 'string' ? createFAQ(faq) : updateFAQ(faq)" :style="{'background': typeof faq.faq_id == 'string' ? '#00BD7E' : null}">
                                     <div class="svg-wrapper-1">
                                         <div class="svg-wrapper">
                                         <svg
@@ -121,7 +121,7 @@ import { faqService } from '@/services'
 import { v4 as uuidv4 } from 'uuid'
 export default {
     data(){
-        return{
+        return {
             faq: null,
             search: '',
         }
@@ -133,8 +133,8 @@ export default {
           })
         },
 
-        async updateCategory(faq){
-          await faqService.updateCategory(faq)
+        async updateFAQ(faq){
+          await faqService.updateFAQ(faq)
         },
 
         async deleteFAQ(faqId){

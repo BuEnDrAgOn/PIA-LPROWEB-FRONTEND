@@ -6,7 +6,7 @@ import GameInfoView from '../views/GameInfoView.vue'
 import GameCRUDView from '../views/admin/GameCRUDView.vue'
 import ConsolesCRUD from '../views/admin/ConsolesCRUDView.vue'
 import CategoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
-import FAQCRUD from '../views/admin/FAQCRUDView.vue'
+import FaqCRUD from '../views/admin/FaqCRUDView.vue'
 
 import { jwtDecode } from 'jwt-decode'
 const router = createRouter({
@@ -62,8 +62,8 @@ const router = createRouter({
     },
     {
       path: '/admin/faq',
-      name: 'FAQCRUD',
-      components: FAQCRUD,
+      name: 'FaqCRUD',
+      components: FaqCRUD,
       meta: {requiresAuth: true}
     },
     // {
