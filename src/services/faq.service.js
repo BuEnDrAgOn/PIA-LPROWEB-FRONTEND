@@ -20,6 +20,14 @@ export const faqService = {
     // Delete
     deleteFAQ: async (params) => {
         return Api.delete(`/faq/${params}`)
-    }
+    },
 
+// Read all User Questions
+    getUserQuestions: async () => {
+        return Api.get('/users/user_question/')
+    },
+
+    deleteUserQuestion: async (params) => {
+        return Api.delete(`/users/user_question/${params}`)
+    }
 }

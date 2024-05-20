@@ -12,6 +12,7 @@ import FAQCRUDView from './views/FaqView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
 import QuestionModalComponentVue from './components/QuestionModalComponentVue.vue';
+import FaqUsersViewVue from './views/admin/FaqUsersView.vue';
 import { jwtDecode } from 'jwt-decode';
 
 const displayNavChecked = ref(true);
@@ -119,7 +120,7 @@ onMounted(() =>{
         </li>
         <NavList link="/faq" page="FAQ"/>
         <NavList link="/" page="Logout" @click="logOut"/>
-        <li class="green" @click="questionModal()">Report a Question</li>
+        <li class="green" style="padding: 2rem 0;" @click="questionModal()">Report a Question</li>
       </ul>
 
     </nav>

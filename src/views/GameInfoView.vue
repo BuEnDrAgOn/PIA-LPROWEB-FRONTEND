@@ -1,7 +1,7 @@
 <template>
 <div id="main">
     <div class="wrapper">
-        <img id="gameImg" src="" alt="a">
+        <img id="gameImg" :src="game.games_info.game_fpage" alt="a">
 
         <div>
             <h1>{{game.gameName}}</h1>
@@ -114,6 +114,7 @@ export default {
         async getGame(game){
             await gameService.getGame({game}).then(res =>{
               const {data} = res
+              console.log(data)
               if(data.games_info != null){
                 data.games_info.game_features_general = JSON.parse(data.games_info.game_features_general)
                 data.games_info.game_features_specific = JSON.parse(data.games_info.game_features_specific)
