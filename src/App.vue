@@ -8,9 +8,10 @@ import GamesViewVue from './views/GamesView.vue';
 import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
 import ConsolesCRUDView from './views/admin/ConsolesCRUDView.vue';
-import FAQCRUDView from './views/admin/FaqCRUDView.vue';
+import FAQCRUDView from './views/FaqView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
+import QuestionModalComponentVue from './components/QuestionModalComponentVue.vue';
 import { jwtDecode } from 'jwt-decode';
 
 const displayNavChecked = ref(true);
@@ -26,6 +27,17 @@ const consoleCategory = (e) =>{
 const admin = ref(false)
 const user = ref(false)
 const profile = ref('Perfil')
+
+const reportQuestion = ref(null)
+const sesionComponent = ref(null)
+
+const questionModal = () =>{
+  if(localStorage.getItem('token')){
+    reportQuestion.value.visible = true
+  } else{
+    sesionComponent.value.visible = true
+  }
+}
 
 const loginUser = (role) =>{
   if(role){
@@ -107,7 +119,7 @@ onMounted(() =>{
         </li>
         <NavList link="/faq" page="FAQ"/>
         <NavList link="/" page="Logout" @click="logOut"/>
-        <NavList link="/" page="Report a question"/>
+        <li class="green" @click="questionModal()">Report a Question</li>
       </ul>
 
     </nav>
@@ -118,6 +130,7 @@ onMounted(() =>{
   </main>
 
   <SesionComponentVue ref="sesionComponent" @admin="loginUser"/>
+  <QuestionModalComponentVue ref="reportQuestion"/>
 
 </template>
 

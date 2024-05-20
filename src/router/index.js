@@ -6,7 +6,7 @@ import GameInfoView from '../views/GameInfoView.vue'
 import GameCRUDView from '../views/admin/GameCRUDView.vue'
 import ConsolesCRUD from '../views/admin/ConsolesCRUDView.vue'
 import CategoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
-import FaqCRUD from '../views/admin/FaqCRUDView.vue'
+import FaqCRUD from '../views/FaqView.vue'
 
 import { jwtDecode } from 'jwt-decode'
 const router = createRouter({

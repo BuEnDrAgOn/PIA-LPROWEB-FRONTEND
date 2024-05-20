@@ -20,5 +20,10 @@ export const userService = {
     // Update
     userUpdateGame: async (params) =>{
         return Api.patch(`/users/user_score/`, params)
+    },
+
+    // User_Questions
+    createUserQuestion: async (params) => {
+        return Api.post('/users/user_question/', params)
     }
 }

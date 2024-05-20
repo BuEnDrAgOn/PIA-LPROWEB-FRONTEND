@@ -27,6 +27,7 @@ body #app {
 
 a,
 .green {
+  padding: 2rem 0;
   display: block;
   width: 100%;
   text-decoration: none;
@@ -35,8 +36,8 @@ a,
 }
 
 @media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+  a:hover, .green:hover {
+    background-color: #CCF2E5;
     cursor: url('@/assets/cursors/cursor.cur'), auto;
     animation: cursor 0.4s linear infinite;
   }
