@@ -34,7 +34,7 @@ import { jwtDecode } from 'jwt-decode'
       data(){
         return {
           faqs: [],
-          admin: true,
+          admin: false,
 
           visibleAnswer: {}
         }

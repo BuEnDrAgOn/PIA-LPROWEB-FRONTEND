@@ -74,7 +74,7 @@
             <h2>Carecterísticas Específicas</h2>
               <ul class="features row" v-if="game.games_info">
                   <li v-for="(gameF, index) in game.games_info.game_features_specific" :key="gameF" lang="de">
-                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_specific[index] = $event.target.value" @keydown.enter="game.games_info.game_features_specific.push(''); game.games_info.game_features_general[index] = $event.target.value" @keydown.delete="$event.target.value.length == 0 && game.games_info.game_features_specific.length > 1? game.games_info.game_features_specific.splice(index, 1) : null" @keydown="restartFeatures('specific', $event)">
+                    <input type="text" v-if="admin" :value="gameF" @change="game.games_info.game_features_specific[index] = $event.target.value" @keydown.enter="game.games_info.game_features_specific.push(''); game.games_info.game_features_specific[index] = $event.target.value" @keydown.delete="$event.target.value.length == 0 && game.games_info.game_features_specific.length > 1? game.games_info.game_features_specific.splice(index, 1) : null" @keydown="restartFeatures('specific', $event)">
                     {{!admin ? gameF : ''}}
                   </li>  
               </ul>
