@@ -63,7 +63,7 @@ const router = createRouter({
     {
       path: '/admin/faq',
       name: 'FaqCRUD',
-      components: FaqCRUD,
+      component: FaqCRUD,
       meta: {requiresAuth: true}
     },
     // {
