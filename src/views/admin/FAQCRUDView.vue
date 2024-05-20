@@ -7,21 +7,42 @@
           </button>
     </div>
     <div id="container">
-        <article class="wrapper">
-          <h2 class="question">Hola</h2>
-          <div class="answer">Wow</div>
-          <textarea name=""></textarea>
+        <article class="wrapper" v-for="faq in faqs" :key="faq.fqa_id">
+          <input type="text" class="question" v-if="admin" :value="faq.fqa_title" @change="faq.fqa_title = $event.target.value">
+          <h2 class="question" v-else @click="toggleAnswer(faq.fqa_id)" :class="{'show': visibleAnswer[faq.fqa_id]}">{{faq.fqa_title}}</h2>
+          <textarea name="" v-if="admin" :value="faq.fqa_answer" @change="faq.fqa_answer = $event.target.value"/>
+          <div class="answer answer-user" v-else :class="{'show': visibleAnswer[faq.fqa_id]}">{{faq.fqa_answer}}</div>
         </article>
     </div>
 </template>
 
 <script>
+import { faqService } from '@/services'
     export default {
       data(){
         return {
-          faq: [],
-          admin: true
+          faqs: [],
+          admin: false,
+
+          visibleAnswer: {}
         }
+      },
+
+      methods:{
+        getFAQ(){
+          faqService.getAllFAQ().then((res) =>{
+            console.log(res.data)
+            this.faqs = res.data
+          })
+        },
+
+        toggleAnswer(fqaID){
+          this.visibleAnswer[fqaID] = !this.visibleAnswer[fqaID]
+        }
+      },
+
+      mounted(){
+        this.getFAQ()
       }
     }
 </script>
@@ -34,7 +55,6 @@
     padding: 3rem 0;
     height: 93%;
     width: 100%;
-    /* flex-grow: 1; */
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     border-radius: 10px;
     overflow-y: auto;
@@ -72,12 +92,25 @@
     position: relative;
     flex-flow: wrap column;
     font-size: 1.5rem;
-    justify-content: center;
-    align-content: center;
+    align-content: flex-start;
     width: 80%;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     border: 1px solid black;
     border-radius: 0.25rem;
+}
+
+.question::after{
+  content: '\27A4';
+  position: absolute;
+  padding: 0.5rem;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-270deg);
+  transition: all 0.3s;
+}
+
+.question.show::after{
+  transform: translateY(-50%) rotate(270deg);;
 }
 
 #container .wrapper .answer{
@@ -87,13 +120,30 @@
     border: 1px solid black;
     border-radius: 0 0 0.25rem 0.25rem;
     border-top: none;
+    overflow: hidden;
+    transition: all 0.3s;
 }
+
+#container .wrapper .answer-user{
+  height: 0;
+  padding: 0 1.5rem;
+  border-width: 0;
+}
+
+#container .wrapper .answer-user.show{
+  border-width: 1px;
+  border-radius: 0 0 0.25rem 0.25rem;
+  padding: 1.5rem;
+  height: auto;
+}
+
 
 textarea {
     width: 78%;
     resize: none;
     padding: 10px;
     border: 1px solid #ccc; 
+    border-top: none;
     border-radius: 5px; 
     color: #333; 
     background-color: #f4f4f4; 
@@ -109,7 +159,6 @@ textarea:focus {
 .header{
     display: flex;
     justify-content: space-between;
-    /* align-items: center;   */
     padding-left: 2rem;
     font-style: italic;
 }
