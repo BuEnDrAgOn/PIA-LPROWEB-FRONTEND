@@ -16,6 +16,10 @@ export const gameService = {
         return Api.get(`/games/game/${params.game}`)
     },
 
+    topTen: async () => {
+        return Api.get('/games/top/')
+    },
+
     // Update
     updateGame: async (params) => {
         return Api.patch(`/games/${params.game_id}`, params)

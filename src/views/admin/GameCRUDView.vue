@@ -72,7 +72,12 @@
                             </ul>
                         </td>
                         <td>
-                            <!-- Falta contenido aquí -->
+                            <div class="input-container">
+                                <input class="input" name="text" type="text" v-model="game.games_info.game_fpage">
+                                <label class="label" for="input">Game Image</label>
+                                <div class="topline"></div>
+                                <div class="underline"></div>
+                            </div>
                         </td>
                         <td>
                             <div>
@@ -170,6 +175,7 @@ export default {
         async getGames(){
             await gameService.getAllGames().then((response) =>{
                 this.games = response.data
+                console.log(this.games)
             })
         },
         
@@ -257,7 +263,10 @@ export default {
                 game_name: '',
                 game_banner: null,
                 games_console: [],
-                games_category: []
+                games_category: [],
+                games_info:{
+                  game_fpage: ''
+                }
             }
 
             this.games.unshift(emptyGame)
