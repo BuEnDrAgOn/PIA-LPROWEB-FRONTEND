@@ -1,49 +1,40 @@
 <template>
     <h1>Character</h1>
     <div id="container" class="row">
-        <div class="col-6">
+        <div>
             <h2>Nickname</h2>
             <div class="input-container">
-                <input class="input" name="text" type="text"  v-model="profile.name">
+                <input class="input" name="text" type="text"  v-model="profile.name" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)">
                 <label class="label" for="input">Name</label>
-                <!-- <div class="topline"/>
-                <div class="underline"/> -->
+                <div class="topline"/>
+                <div class="underline"/>
             </div>
         </div>
-        <div class="col-6">
-            <h2>Title</h2>
-            <div class="input-container">
-                <input class="input" name="text" type="text" v-model="profile.last_name">
-                <label class="label" for="input">Last Name</label>
-                <!-- <div class="topline"/>
-                <div class="underline"/> -->
-            </div>
-        </div>
-        <div class="col-6">
+        <div>
             <h2>Old Runes</h2>
             <div class="input-container">
-                <input class="input password" name="text" type="text" v-model="profile.password">
+                <input class="input password" name="text" type="text" v-model="profile.password" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">Old Password</label>
-                <!-- <div class="topline"/>
-                <div class="underline"/> -->
+                <div class="topline"/>
+                <div class="underline"/>
             </div>
         </div>
-        <div class="col-6">
+        <div>
             <h2>New Runes</h2>
             <div class="input-container">
-                <input class="input password" name="text" type="text" v-model="newPassword">
+                <input class="input password" name="text" type="text" v-model="newPassword" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">New Password</label>
-                <!-- <div class="topline"/>
-                <div class="underline"/> -->
+                <div class="topline"/>
+                <div class="underline"/>
             </div>
         </div>
-        <div class="col-6">
+        <div>
             <h2>Confirm New Runes</h2>
             <div class="input-container">
-                <input class="input password" name="text" type="text" v-model="confirmNewPassword">
+                <input class="input password" name="text" type="text" v-model="confirmNewPassword" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">Confirm New Password</label>
-                <!-- <div class="topline"/>
-                <div class="underline"/> -->
+                <div class="topline"/>
+                <div class="underline"/>
             </div>
         </div>
     </div>
@@ -68,17 +59,31 @@ export default {
         }
     },
     methods: {
+        labelWidth(element){
+            const label = element.nextElementSibling;
+            const labelWidth = label.offsetWidth;
+            const topline = label.nextElementSibling;
+
+            topline.style.width = `calc(100% - ${labelWidth}px - 20px)`
+        },
+
+        resetLabelWidth(element){
+            const label = element.nextElementSibling;
+            const topline = label.nextElementSibling;
+
+            topline.style.width = `0px`
+        }
         
     },
     mounted() {
         if(localStorage.getItem('token')){
         const payload = jwtDecode(localStorage.getItem('token'))
         if(payload.roles.role_name === 'admin'){
-        this.admin = true
+            this.admin = true
         }
         this.user = true;
         this.profile.name = payload.user_name
-    }
+        }
     }
 }
 
@@ -97,8 +102,8 @@ export default {
 }
 
 .input-container .input{
+  width: 100%;
   padding: 1rem;
-  height: 40px;
   border: 2px solid black;
   border-top: none;
   border-bottom: none;
@@ -116,6 +121,7 @@ export default {
 
 .input-container .label {
   position: absolute;
+  font-size: 1rem;
   top: 10px;
   left: 10px;
   color: black;
@@ -157,19 +163,24 @@ export default {
 }
 
 .input-container input[type="text"]:focus ~ .label {
-  top: -10px;
+  top: -15px;
   transform: scale(1);
   transition: all 0.5s;
 }
 
 .password { 
-    font-family: norseFont !important
+    font-family: norseFont !important;
 }
 
 #container{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
+    display: grid;
+    grid-template-areas: 
+        "nickname nickname"
+        "password confirm-password";
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(30%, auto);
+    align-content: center;
+    justify-items: center;
     padding: 3rem 0;
     height: 93%;
     width: 100%;
@@ -198,20 +209,40 @@ export default {
     background: #ccc;
 }
 
-#container div{
+#container > div{
     display: flex;
+    flex-flow: column wrap;
     font-size: 1.5rem;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 80%;
     padding: 1rem;
     border: 1px solid black;
     border-radius: 0.25rem;
+    gap: 1rem;
 }
 
 h1{
     padding-left: 2rem;
     font-style: italic;
     height: 7%;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid black;
+}
+
+@media (max-width: 560px){
+    #container{
+        grid-template-areas: 
+            "nickname"
+            "old-password "
+            "password"
+            "confirm-password";
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
 }
 
 </style>

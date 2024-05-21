@@ -8,7 +8,6 @@ import GamesViewVue from './views/GamesView.vue';
 import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
 import ConsolesCRUDView from './views/admin/ConsolesCRUDView.vue';
-import FAQCRUDView from './views/admin/FAQCRUDView.vue';
 import FAQCRUDView from './views/FaqView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
