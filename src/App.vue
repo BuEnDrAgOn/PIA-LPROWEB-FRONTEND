@@ -8,7 +8,7 @@ import GamesViewVue from './views/GamesView.vue';
 import { consoleService } from '@/services/index.js'
 import GameCRUDView from './views/admin/GameCRUDView.vue'
 import ConsolesCRUDView from './views/admin/ConsolesCRUDView.vue';
-import FAQCRUDView from './views/admin/FaqCRUDView.vue';
+import FAQCRUDView from './views/admin/FAQCRUDView.vue';
 import CategoriesCRUDViewVue from './views/admin/CategoriesCRUDView.vue';
 import SesionComponentVue from './components/SesionComponent.vue';
 import { jwtDecode } from 'jwt-decode';
@@ -84,7 +84,7 @@ onMounted(() =>{
       <ul>
         <NavList link="/" page="Start"/>
         <li class="list-dropdown" @click="$refs.sesionComponent.visible = true" v-if="!user">Login</li>
-        <NavList link="/" :page="profile" v-else/>
+        <NavList link="/character" :page="profile" v-else/>
 
         <li class="list-dropdown">
           Consoles

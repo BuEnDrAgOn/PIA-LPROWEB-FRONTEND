@@ -6,7 +6,8 @@ import GameInfoView from '../views/GameInfoView.vue'
 import GameCRUDView from '../views/admin/GameCRUDView.vue'
 import ConsolesCRUD from '../views/admin/ConsolesCRUDView.vue'
 import CategoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
-import FaqCRUD from '../views/admin/FaqCRUDView.vue'
+import FaqCRUD from '../views/admin/FAQCRUDView.vue'
+import ProfileView from '../views/ProfileView'
 
 import { jwtDecode } from 'jwt-decode'
 const router = createRouter({
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/character',
+      name: 'profile',
+      component: ProfileView
     },
     {
       path: '/categories',
