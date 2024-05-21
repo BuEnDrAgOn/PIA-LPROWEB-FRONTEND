@@ -453,4 +453,10 @@ textarea:focus {
     margin-right: 0;
   }
 }
+
+@media (max-width: 700px) {
+  #container{
+    height: 68vh;
+  }
+}
 </style>
