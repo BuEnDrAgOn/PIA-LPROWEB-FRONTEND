@@ -138,7 +138,7 @@ export default {
           this.errors.signIn.password = 'Escriba una contraseña'
         }else{
           if(this.user.user_password.length < 8){
-            this.errors.signIn.password = 'Escriba una contraseña de 8 dígitos como mínimo'
+            this.errors.signIn.password = 'Contraseña de 8 dígitos mínimo'
           } else {
             this.errors.signIn.password = null
           }

@@ -345,6 +345,10 @@ li.list-dropdown{
     width: 100%;
   }
 
+  ul.dropdown li{
+    width: 200px;
+  }
+
   .mobile-nav{
     display: flex;
     padding: 1rem;
