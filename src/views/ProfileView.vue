@@ -32,7 +32,7 @@
             <h2>Confirm New Runes</h2>
             <div class="input-container">
                 <input class="input password" name="text" type="text" v-model="confirmNewPassword" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
-                <label class="label" for="input">Confirm New Password</label>
+                <label class="label" for="input">Confirm Password</label>
                 <div class="topline"/>
                 <div class="underline"/>
             </div>
@@ -103,11 +103,11 @@ export default {
 
 .input-container .input{
   width: 100%;
-  padding: 1rem;
+  padding: 2rem 1rem;
   border: 2px solid black;
   border-top: none;
   border-bottom: none;
-  font-size: 16px;
+  font-size: 1.5rem;
   background: transparent;
   outline: none;
   box-shadow: 7px 7px 0px 0px black;
@@ -121,7 +121,7 @@ export default {
 
 .input-container .label {
   position: absolute;
-  font-size: 1rem;
+  font-size: 1.5rem;
   top: 10px;
   left: 10px;
   color: black;
@@ -163,7 +163,7 @@ export default {
 }
 
 .input-container input[type="text"]:focus ~ .label {
-  top: -15px;
+  top: -20px;
   transform: scale(1);
   transition: all 0.5s;
 }
@@ -178,7 +178,7 @@ export default {
         "nickname nickname"
         "password confirm-password";
     grid-template-columns: 1fr 1fr;
-    grid-auto-rows: minmax(30%, auto);
+    grid-auto-rows: auto;
     align-content: center;
     justify-items: center;
     padding: 3rem 0;
@@ -242,6 +242,8 @@ h2{
             "confirm-password";
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
+        height: 70vh;
+        align-content: stretch;
     }
 }
 
