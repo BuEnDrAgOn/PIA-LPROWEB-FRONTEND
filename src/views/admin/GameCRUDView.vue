@@ -265,7 +265,7 @@ export default {
                 games_console: [],
                 games_category: [],
                 games_info:{
-                  game_fpage: ''
+                  game_fpage: 'https://placehold.jp/250x250.png'
                 }
             }
 

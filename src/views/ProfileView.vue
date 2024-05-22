@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
 import { jwtDecode } from 'jwt-decode';
 
 export default {

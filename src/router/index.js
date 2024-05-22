@@ -9,6 +9,7 @@ import CategoriesCRUD from '../views/admin/CategoriesCRUDView.vue'
 import ProfileView from '../views/ProfileView'
 import FaqView from '../views/FaqView.vue'
 import FaqUsers from '../views/admin/FaqUsersView.vue'
+import Reports from '../views/admin/ReportView.vue'
 
 import { jwtDecode } from 'jwt-decode'
 const router = createRouter({
@@ -78,6 +79,12 @@ const router = createRouter({
       component: FaqUsers,
       meta: {requiresAuth: true}
     },
+    {
+      path: "/admin/reports",
+      name: "Reports",
+      component: Reports,
+      meta: {requiresAuth: true}
+    }
     // {
     //   path: '/admin/faq',
     //   name: 'FaqCRUD',
