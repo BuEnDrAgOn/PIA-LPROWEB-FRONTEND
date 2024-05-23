@@ -47,10 +47,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { onMounted, ref } from 'vue';
-=======
->>>>>>> ba4d0bdc6d3f243be063e73330d7dba062ba6827
 import { jwtDecode } from 'jwt-decode';
 import { userService } from '@/services'
 
@@ -85,7 +81,6 @@ export default {
         },
         
         saveCharacter() {
-            console.log('Entra');
             if(this.newPassword == this.confirmNewPassword) {
                 console.log('Si son las contraseñas.');
                 const user = {
@@ -96,10 +91,8 @@ export default {
                 }
 
                 if(!this.profile.password) {
-                    console.log('No hay contraseña.');
                     // this.errors.logIn.credentials = 'Escriba su contraseña'
                 } else{
-                    console.log('Actualizar');
                     // this.errors.signIn.credentials = null
                     userService.update(user).then((res) => {
                         if(res.status === 200){
