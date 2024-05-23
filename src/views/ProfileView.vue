@@ -498,6 +498,9 @@ button:hover #clip {
         height: 70vh;
         align-content: stretch;
     }
+    #container button {
+        grid-column: 1/1;
+    }
 }
 
 </style>
