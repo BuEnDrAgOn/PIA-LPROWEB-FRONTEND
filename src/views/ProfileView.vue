@@ -1,7 +1,10 @@
 <template>
     <div class="row">
         <h1>Character</h1>
-
+        
+        <div>
+            <label class="error" v-if="errors.updateUser != null"> {{errors.updateUser}}</label>
+        </div>
         <button class="button" type="button" @click="saveCharacter">
             <span class="button__text">Save Character</span>
         </button>  
@@ -19,6 +22,9 @@
         <div>
             <h2>Old Runes</h2>
             <div class="input-container">
+                <div>
+                    <label class="error" v-if="errors.oldPassword != null"> {{errors.oldPassword}}</label>
+                </div>
                 <input class="input password" name="text" type="text" v-model="profile.password" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">Old Password</label>
                 <div class="topline"/>
@@ -28,6 +34,9 @@
         <div>
             <h2>New Runes</h2>
             <div class="input-container">
+                <div>
+                    <label class="error" v-if="errors.newPassword != null"> {{errors.newPassword}}</label>
+                </div>
                 <input class="input password" name="text" type="text" v-model="newPassword" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">New Password</label>
                 <div class="topline"/>
@@ -37,6 +46,9 @@
         <div>
             <h2>Confirm New Runes</h2>
             <div class="input-container">
+                <div>
+                    <label class="error" v-if="errors.confirmNewPassword != null"> {{errors.confirmNewPassword}}</label>
+                </div>
                 <input class="input password" name="text" type="text" v-model="confirmNewPassword" @focus="labelWidth($event.target)" @blur="resetLabelWidth($event.target)" autocomplete="off">
                 <label class="label" for="input">Confirm Password</label>
                 <div class="topline"/>
@@ -47,10 +59,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import { onMounted, ref } from 'vue';
-=======
->>>>>>> ba4d0bdc6d3f243be063e73330d7dba062ba6827
 import { jwtDecode } from 'jwt-decode';
 import { userService } from '@/services'
 
@@ -65,7 +74,13 @@ export default {
             admin: null,
             user: null,
             newPassword: null,
-            confirmNewPassword: null
+            confirmNewPassword: null,
+            errors: {
+                newPassword: null,
+                confirmNewPassword: null,
+                oldPassword: null,
+                updateUser: null
+            }
         }
     },
     methods: {
@@ -85,36 +100,53 @@ export default {
         },
         
         saveCharacter() {
-            console.log('Entra');
-            if(this.newPassword == this.confirmNewPassword) {
-                console.log('Si son las contraseñas.');
-                const user = {
-                    old_password: this.profile.password,
-                    new_password: this.newPassword,
-                    user_email: localStorage.getItem('email'),
-                    user_name: this.profile.name
-                }
+            if( this.newPassword ) {
+                if( this.newPassword.length >= 8 ){
+                    if(this.newPassword == this.confirmNewPassword) {
+                        this.errors.newPassword = null
+                        this.errors.confirmNewPassword = null
+                        this.errors.updateUser = null
+                        const user = {
+                            user_id: jwtDecode(localStorage.getItem('token')).user_id,
+                            old_password: this.profile.password,
+                            new_password: this.newPassword,
+                            user_email: jwtDecode(localStorage.getItem('token')).user_email,
+                            user_name: this.profile.name
+                        }
 
-                if(!this.profile.password) {
-                    console.log('No hay contraseña.');
-                    // this.errors.logIn.credentials = 'Escriba su contraseña'
-                } else{
-                    console.log('Actualizar');
-                    // this.errors.signIn.credentials = null
-                    userService.update(user).then((res) => {
-                        if(res.status === 200){
-                            const payload = jwtDecode(res.data);
-                            localStorage.setItem('token', res.data);
-                            if(payload.roles?.role_name === 'admin'){
-                                this.$emit('admin', true);
-                            } else{
-                                this.$emit('admin', false);
+                        if(!this.profile.password) {
+                            this.errors.oldPassword = 'Write your current spell.'
+                            this.errors.updateUser = 'Write your current spell.'
+                        } else{
+                            this.errors.oldPassword = null
+                            if(this.profile.password == jwtDecode(localStorage.getItem('token')).user_password) {
+                                userService.update(user).then((res) => {
+                                    if(res.status === 200){
+                                        const payload = jwtDecode(res.data);
+                                        localStorage.setItem('token', res.data);
+                                        if(payload.roles?.role_name === 'admin'){
+                                            this.$emit('admin', true);
+                                        } else{
+                                            this.$emit('admin', false);
+                                        }
+                                    }
+                                }).catch((e) =>{
+                                    this.errors.updateUser = "Your spell doesn't match with that nickname."
+                                })
+                            } else {
+                                this.errors.oldPassword("Your current spell isn't the same.");
                             }
                         }
-                    }).catch((e) =>{
-                        // this.errors.logIn.credentials = 'Credenciales incorrectas'
-                    })
+                    } else {
+                        this.errors.newPassword = "Runes aren't the same."
+                        this.errors.confirmNewPassword = "Runes aren't the same"
+                    }
+                } else {
+                    this.errors.newPassword = 'You need almost 8 runes to cast this spell.'
+                    this.errors.updateUser = 'You need more runes to cast this spell.'
                 }
+            } else {
+                this.errors.newPassword = 'You should create a new spell. Choose your runes.'
             }
         }
     },
