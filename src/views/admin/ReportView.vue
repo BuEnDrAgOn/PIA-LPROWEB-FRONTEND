@@ -27,7 +27,7 @@
 
         <article v-if="game">
             <h3>Mejor juego de este mes</h3>
-            <span>Su puntaje promedio de este mes fue de: <span class="game-font">{{game.scoreThisMonth}}</span></span> 
+            <span>Su puntaje promedio de este mes fue de: <span class="game-font">{{Number(game.scoreThisMonth).toFixed(2)}}</span></span> 
             <div id="gameScore" @click="gamePage(game.game_name)">
                 <h2>{{game.game_name}}</h2>
                 <div class="rating">

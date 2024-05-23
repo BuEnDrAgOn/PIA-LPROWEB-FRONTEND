@@ -133,7 +133,7 @@ export default {
                 data.games_category.map(e =>{
                     this.game.gameCategories.push(e.categories.category)
                 })
-                this.game.gameScore = data.game_score
+                this.game.gameScore = Number(data.game_score).toFixed(2)
                 this.game.gameConsoles = this.game.gameConsoles.join(', ')
                 this.game.gameCategories = this.game.gameCategories.join(', ')
                 this.gameId = data.game_id
