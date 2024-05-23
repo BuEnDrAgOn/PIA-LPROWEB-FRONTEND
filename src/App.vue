@@ -116,6 +116,7 @@ onMounted(() =>{
             <NavList link="/admin/consoles" page="Consoles"/>
             <NavList link="/admin/categories" page="Categories"/>
             <NavList link="/admin/faq" page="FAQ"/>
+            <NavList link="/admin/reports" page="Reports"/>
           </ul>
         </li>
         <NavList link="/faq" page="FAQ"/>
@@ -343,6 +344,10 @@ li.list-dropdown{
     height: initial;
     top: 20%;
     width: 100%;
+  }
+
+  ul.dropdown li{
+    width: 200px;
   }
 
   .mobile-nav{
