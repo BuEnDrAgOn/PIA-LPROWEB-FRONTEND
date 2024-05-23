@@ -1,7 +1,7 @@
 <template>
 <div id="main">
     <div class="wrapper">
-        <img id="gameImg" :src="game.games_info.game_fpage" alt="a">
+        <img id="gameImg" :src="game.games_info.game_fpage" alt="250 x 250px">
 
         <div>
             <h1>{{game.gameName}}</h1>
