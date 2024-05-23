@@ -11,6 +11,10 @@ export const userService = {
         return Api.post(`/users/read`, params)
     },
 
+    update: async (params) => {
+        return Api.patch(`/users/`, params)
+    },
+
 // gameScore
     // Read
     userGameRated: async (params) =>{
