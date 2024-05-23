@@ -92,6 +92,7 @@ export default {
                   const payload = jwtDecode(res.data);
                   this.visible = false
                   localStorage.setItem('token', res.data);
+                  localStorage.setItem('email', this.user.user_email)
                   if(payload.roles?.role_name === 'admin'){
                     this.$emit('admin', true)
                   } else{

@@ -1,5 +1,11 @@
 <template>
-    <h1>Character</h1>
+    <div class="row">
+        <h1>Character</h1>
+
+        <button class="button" type="button" @click="saveCharacter">
+            <span class="button__text">Save Character</span>
+        </button>  
+    </div>
     <div id="container" class="row">
         <div>
             <h2>Nickname</h2>
@@ -41,7 +47,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+import { onMounted, ref } from 'vue';
+=======
+>>>>>>> ba4d0bdc6d3f243be063e73330d7dba062ba6827
 import { jwtDecode } from 'jwt-decode';
+import { userService } from '@/services'
 
 export default {
     data() {
@@ -71,8 +82,41 @@ export default {
             const topline = label.nextElementSibling;
 
             topline.style.width = `0px`
-        }
+        },
         
+        saveCharacter() {
+            console.log('Entra');
+            if(this.newPassword == this.confirmNewPassword) {
+                console.log('Si son las contraseñas.');
+                const user = {
+                    old_password: this.profile.password,
+                    new_password: this.newPassword,
+                    user_email: localStorage.getItem('email'),
+                    user_name: this.profile.name
+                }
+
+                if(!this.profile.password) {
+                    console.log('No hay contraseña.');
+                    // this.errors.logIn.credentials = 'Escriba su contraseña'
+                } else{
+                    console.log('Actualizar');
+                    // this.errors.signIn.credentials = null
+                    userService.update(user).then((res) => {
+                        if(res.status === 200){
+                            const payload = jwtDecode(res.data);
+                            localStorage.setItem('token', res.data);
+                            if(payload.roles?.role_name === 'admin'){
+                                this.$emit('admin', true);
+                            } else{
+                                this.$emit('admin', false);
+                            }
+                        }
+                    }).catch((e) =>{
+                        // this.errors.logIn.credentials = 'Credenciales incorrectas'
+                    })
+                }
+            }
+        }
     },
     mounted() {
         if(localStorage.getItem('token')){
